@@ -1,0 +1,75 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    var username = User.Identity?.Name ?? "User";
+    var machineCount = ViewBag.MachineCount ?? "-";
+    var productCount = ViewBag.ProductCount ?? "-";
+    var workOrderCount = ViewBag.WorkOrderCount ?? "-";
+    var operatorCount = ViewBag.OperatorCount ?? "-";
+}
+<div class="container py-5">
+    <div class="row justify-content-center mb-4">
+        <div class="col-lg-10">
+            <div class="p-4 mb-4 rounded-4 shadow glass-navbar text-center">
+                <h1 class="display-5 fw-bold mb-2">Welcome, <span class="text-primary">@username</span>!</h1>
+                <p class="lead mb-0">Here's your Manufacturing Execution System dashboard.</p>
+            </div>
+        </div>
+    </div>
+    <div class="row g-4 mb-4">
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 rounded-4 text-center h-100">
+                <div class="card-body py-4">
+                    <i class="bi bi-cpu-fill display-4 text-primary mb-2"></i>
+                    <h5 class="card-title">Machines</h5>
+                    <p class="card-text fs-4 fw-bold">@machineCount</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 rounded-4 text-center h-100">
+                <div class="card-body py-4">
+                    <i class="bi bi-box-seam display-4 text-success mb-2"></i>
+                    <h5 class="card-title">Products</h5>
+                    <p class="card-text fs-4 fw-bold">@productCount</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 rounded-4 text-center h-100">
+                <div class="card-body py-4">
+                    <i class="bi bi-clipboard-data display-4 text-warning mb-2"></i>
+                    <h5 class="card-title">Work Orders</h5>
+                    <p class="card-text fs-4 fw-bold">@workOrderCount</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 rounded-4 text-center h-100">
+                <div class="card-body py-4">
+                    <i class="bi bi-people-fill display-4 text-info mb-2"></i>
+                    <h5 class="card-title">Operators</h5>
+                    <p class="card-text fs-4 fw-bold">@operatorCount</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-3"><i class="bi bi-activity me-2 text-primary"></i>Production Overview</h5>
+                    <div class="text-muted">Coming soon: charts and analytics for production records.</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card shadow-sm border-0 rounded-4 h-100">
+                <div class="card-body">
+                    <h5 class="card-title mb-3"><i class="bi bi-exclamation-triangle-fill me-2 text-danger"></i>Recent
+                        Downtimes</h5>
+                    <div class="text-muted">Coming soon: downtime logs and alerts.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
