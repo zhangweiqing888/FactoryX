@@ -1,49 +1,44 @@
-@{ 
+@{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
     var username = User.Identity?.Name;
 
 }
 
-
-
 <aside class="sidebar d-flex flex-column align-items-center py-3 px-2 w-auto min-vh-100">
-    <!-- Üstteki nav ikonlarý -->
+    <!-- ï¿½stteki nav ikonlarï¿½ -->
     <nav class="nav flex-column gap-3 flex-grow-1">
-        <a asp-controller="Home" asp-action="Dashboard" class="nav-link sidebar-link  p-2 @(currentController == "Home" ? "active" : "")" title="Dashboard">
+        <a asp-controller="Home" asp-action="Dashboard"
+            class="nav-link sidebar-link  p-2 @(currentController == "Home" ? "active" : "")" title="Dashboard">
             <i class="bi bi-speedometer2 fs-4"></i>
         </a>
-        <a asp-controller="Machines" asp-action="Index" class="nav-link sidebar-link p-2 @(currentController == "Machines" ? "active" : "")" title="Makineler">
+        <a asp-controller="Machines" asp-action="Index"
+            class="nav-link sidebar-link p-2 @(currentController == "Machines" ? "active" : "")" title="Makineler">
             <i class="bi bi-cpu fs-4"></i>
         </a>
         <a asp-controller="Products" asp-action="Index"
-           class="nav-link sidebar-link p-2 @(currentController == "Products" ? "active" : "")"
-           title="Ürünler">
+            class="nav-link sidebar-link p-2 @(currentController == "Products" ? "active" : "")" title="ï¿½rï¿½nler">
             <i class="bi bi-box-seam fs-4"></i>
         </a>
         <a asp-controller="Operator" asp-action="Index"
-           class="nav-link sidebar-link p-2 @(currentController == "Operator" ? "active" : "")"
-           title="Operatör">
+            class="nav-link sidebar-link p-2 @(currentController == "Operator" ? "active" : "")" title="Operatï¿½r">
             <i class="bi bi-person-badge fs-4"></i>
         </a>
         <a asp-controller="WorkOrder" asp-action="Index"
-           class="nav-link sidebar-link p-2 @(currentController == "WorkOrder" ? "active" : "")"
-           title="Ýþ Emri">
+            class="nav-link sidebar-link p-2 @(currentController == "WorkOrder" ? "active" : "")" title="ï¿½ï¿½ Emri">
             <i class="bi bi-list-task fs-4"></i>
         </a>
         <a asp-controller="ProductionRecord" asp-action="Index"
-           class="nav-link sidebar-link p-2 @(currentController == "ProductionRecord" ? "active" : "")"
-           title="Üretim">
+            class="nav-link sidebar-link p-2 @(currentController == "ProductionRecord" ? "active" : "")" title="ï¿½retim">
             <i class="bi bi-clipboard-data fs-4"></i>
         </a>
         <a asp-controller="Shift" asp-action="Index"
-           class="nav-link sidebar-link p-2 @(currentController == "Shift" ? "active" : "")"
-           title="Vardiya">
+            class="nav-link sidebar-link p-2 @(currentController == "Shift" ? "active" : "")" title="Vardiya">
             <i class="bi bi-clock-history fs-4"></i>
         </a>
     </nav>
 
-    <!-- Alt kýsýmdaki profil/giriþ -->
+    <!-- Alt kï¿½sï¿½mdaki profil/giriï¿½ -->
     <div class="">
         @if (isAuthenticated)
         {
@@ -53,7 +48,7 @@
         }
         else
         {
-            <a asp-controller="Account" asp-action="Login" class="nav-link sidebar-link p-2" title="Giriþ Yap">
+            <a asp-controller="Account" asp-action="Login" class="nav-link sidebar-link p-2" title="Giriï¿½ Yap">
                 <i class="bi bi-box-arrow-in-right fs-4"></i>
             </a>
         }
@@ -64,15 +59,14 @@
 
 
 <style>
-
     .sidebar {
         background: rgba(255, 255, 255, 0.95);
-        border-right: 1px solid #e5e7eb;
+    @* border-right: 1px solid #044ddf; *@
     }
 
     [data-bs-theme="dark"] .sidebar {
         background: rgba(30, 34, 54, 0.95);
-        border-right: 1px solid #232946;
+    @* border-right: 1px solid #232946; *@
     }
 
     .sidebar-link {
@@ -81,25 +75,24 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 48px; 
-        height: 48px; 
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
         margin-bottom: 8px;
         transition: background 0.15s, color 0.15s, transform 0.15s;
         text-decoration: none;
     }
 
-        .sidebar-link.active,
-        .sidebar-link:hover {
-            background: #e0e7ff;
-            color: #0d6efd;
-            transform: scale(1.12);
-        }
+    .sidebar-link.active,
+    .sidebar-link:hover {
+        background: #e0e7ff;
+        color: #0d6efd;
+        transform: scale(1.12);
+    }
 
     [data-bs-theme="dark"] .sidebar-link.active,
     [data-bs-theme="dark"] .sidebar-link:hover {
         background: #232946;
         color: #60a5fa;
     }
-
 </style>

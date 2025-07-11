@@ -1,0 +1,102 @@
+﻿@{
+    var appTitle = "FactoryX MES";
+    var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+    var username = User.Identity?.Name;
+}
+
+<nav class="navbar navbar-expand-md">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-bold d-flex align-items-center gap-2" asp-area="" asp-controller="Home"
+            asp-action="Index">
+            <i class="bi bi-gear-wide-connected"></i> <span>@appTitle</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar2"
+            aria-controls="mainNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavbar2">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center gap-2">
+                @if (isAuthenticated)
+                {
+                    <li class="nav-item d-none d-lg-block">
+                        <span class="nav-link disabled"><i class="bi bi-person-circle"></i> @username</span>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Logout" title="Çıkış Yap">
+                            <i class="bi bi-box-arrow-right"></i> <span class="d-none d-md-inline">Logout</span>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Login"><i
+                                class="bi bi-box-arrow-in-right"></i> Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Account" asp-action="Register"><i class="bi bi-person-plus"></i>
+                            Register</a>
+                    </li>
+                }
+                <li class="nav-item d-flex align-items-center ms-2">
+                    @await Html.PartialAsync("_ThemeToggle")
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<style>
+    @* .glass-navbar {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+        border-radius: 0 0 1.5rem 1.5rem;
+        z-index: 1040;
+        transition: background 0.2s, color 0.2s;
+    } *@
+
+    .navbar {
+
+        background: rgba(255, 255, 255, 0.95);
+    }
+
+    [data-bs-theme="dark"] .navbar {
+        background: rgba(30, 34, 54, 0.95);
+    }
+
+    [data-bs-theme="dark"] .glass-navbar {
+        background: rgba(30, 34, 54, 0.85);
+    }
+
+    .navbar .nav-link {
+        color: #333;
+        font-weight: 500;
+        transition: color 0.15s;
+    }
+
+    .navbar .nav-link:hover,
+    .navbar .nav-link.active {
+        color: #0d6efd;
+    }
+
+    [data-bs-theme="dark"] .navbar .nav-link {
+        color: #f8fafc;
+    }
+
+    [data-bs-theme="dark"] .navbar .nav-link:hover,
+    [data-bs-theme="dark"] .navbar .nav-link.active {
+        color: #60a5fa;
+    }
+
+    .navbar-brand {
+        font-size: 1.3rem;
+        letter-spacing: 0.02em;
+    }
+
+    .navbar .badge {
+        pointer-events: none;
+    }
+</style>
