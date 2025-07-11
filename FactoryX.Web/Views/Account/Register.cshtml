@@ -1,4 +1,4 @@
-@model FactoryX.Web.Models.RegisterViewModel
+@* @model FactoryX.Web.Models.RegisterViewModel
 @{
     ViewData["Title"] = "Register";
 }
@@ -44,4 +44,122 @@
 </div>
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+} *@
+
+
+@model FactoryX.Web.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
 }
+
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FactoryX - MES</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        body {
+            min-height: 100vh;
+            background: url('/images/cover.png') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            margin-right: 5vw;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.18);
+            padding: 2.5rem;
+            backdrop-filter: blur(2px);
+        }
+
+        .title {
+            font-weight: 700;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #1a237e;
+        }
+
+        .form-label {
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #43a047 0%, #7fe682 100%);
+            border: none;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #388e3c 0%, #66bb6a 100%);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 1.2rem;
+        }
+
+        .login-link a {
+            color: #43a047;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container shadow-lg">
+        <div class="title">
+            FactoryX MES Kayıt
+        </div>
+        <form asp-action="Register" method="post" novalidate>
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+            <div class="mb-3">
+                <label asp-for="Username" class="form-label">Kullanıcı Adı</label>
+                <input asp-for="Username" class="form-control" autocomplete="username" />
+                <span asp-validation-for="Username" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Şifre</label>
+                <input asp-for="Password" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="form-label">Şifre Tekrar</label>
+                <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Role" class="form-label">Rol</label>
+                <select asp-for="Role" class="form-select">
+                    <option value="" disabled>Seçiniz</option>
+                    <option value="Operator">Operatör</option>
+                    <option value="Admin">Yönetici</option>
+                </select>
+                <span asp-validation-for="Role" class="text-danger small"></span>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Kayıt Ol</button>
+        </form>
+        <div class="login-link">
+            <span>Zaten bir hesabınız var mı?</span>
+            <a asp-action="Login">Giriş Yap</a>
+        </div>
+    </div>
+</body>
+
+</html>

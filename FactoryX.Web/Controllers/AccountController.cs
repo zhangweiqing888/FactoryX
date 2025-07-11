@@ -66,7 +66,6 @@ public class AccountController : Controller
         try
         {
             var user = await _userService.RegisterAsync(new UserRegisterDto { Username = model.Username, Password = model.Password, Role = model.Role });
-            // TODO: Optionally auto-login after registration
             return RedirectToAction("Login");
         }
         catch (Exception ex)
