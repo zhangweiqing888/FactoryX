@@ -1,13 +1,20 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using FactoryX.Infrastructure;
 using FactoryX.Application.Services;
+using FactoryX.Web.Services.Concretes;
+using FactoryX.Web.Services.Abstracts;
+using FactoryX.Web.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// MVC Services
 builder.Services.AddControllersWithViews();
+
+// Database Configuration
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddInfrastructure(connectionString ?? "");
+
+// Application Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMachineService, MachineService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -16,20 +23,35 @@ builder.Services.AddScoped<IOperatorService, OperatorService>();
 builder.Services.AddScoped<IProductionRecordService, ProductionRecordService>();
 builder.Services.AddScoped<IShiftService, ShiftService>();
 
+// Web Services
+builder.Services.AddScoped<IFirstVisitService, FirstVisitService>();
+
+// Session Configuration
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromMinutes(30);
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
+	options.Cookie.SameSite = SameSiteMode.Lax;
+	options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+});
+
+// Authentication and Authorization Configuration
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
-        options.AccessDeniedPath = "/Account/Login";
-        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.LoginPath = "/Login";
+        options.LogoutPath = "/Logout";
+        options.AccessDeniedPath = "/Login";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         options.SlidingExpiration = true;
     });
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Exception Handling
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -37,18 +59,35 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+//Security & Static Files
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+// Routing
 app.UseRouting();
 
+// Session & Authentication
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseMiddleware<FirstVisitMiddleware>();
+ 
 app.MapStaticAssets();
 
+// Custom Routes
+app.MapControllerRoute(
+    name: "login",
+    pattern: "login",
+    defaults: new { controller = "Account", action = "Login" });
+
+app.MapControllerRoute(
+	name: "register",
+	pattern: "register",
+	defaults: new { controller = "Account", action = "Register" });
+
+// Default Route
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
