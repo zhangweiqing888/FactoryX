@@ -6,12 +6,14 @@ namespace FactoryX.Infrastructure.Repositories;
 
 public class BaseRepository<T> : IBaseRepository<T> where T : class
 {
-    protected readonly AppDbContext _context;
+    internal readonly AppDbContext _context;
+    //internal DbSet<T> _dbset; 
 
     public BaseRepository(AppDbContext context)
     {
         _context = context;
-    }
+        //_dbset = context.Set<T>();
+	}
 
     public void Create(T entity)
     {
