@@ -1,10 +1,12 @@
+using FactoryX.Domain.Common;
+
 namespace FactoryX.Domain.Entities;
 
-public class Machine
+public class Machine : EntityBase
 {
-    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Status { get; set; } = string.Empty;
     public int Capacity { get; set; }
-    // Navigation properties can be added later
+    public ICollection<WorkOrder>? WorkOrders { get; set; }
+    public ICollection<Downtime>? Downtimes { get; set; }
 }
