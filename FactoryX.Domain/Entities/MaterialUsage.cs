@@ -1,9 +1,12 @@
+using FactoryX.Domain.Common;
+
 namespace FactoryX.Domain.Entities;
 
-public class MaterialUsage
+public class MaterialUsage : EntityBase
 {
-    public int Id { get; set; }
     public int WorkOrderId { get; set; }
     public int MaterialId { get; set; }
     public int Quantity { get; set; }
+    public WorkOrder? WorkOrder { get; set; }
+    public Material? Material { get; set; }
 }
