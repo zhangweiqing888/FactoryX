@@ -1,8 +1,9 @@
 using FactoryX.Application.DTOs;
+using FactoryX.Application.Services.Abstracts;
 using FactoryX.Domain.Entities;
 using FactoryX.Domain.Interfaces;
 
-namespace FactoryX.Application.Services;
+namespace FactoryX.Application.Services.Concretes;
 
 public class MachineService : IMachineService
 {

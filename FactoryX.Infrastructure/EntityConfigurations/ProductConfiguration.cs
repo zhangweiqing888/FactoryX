@@ -8,6 +8,8 @@ public class ProductConfiguration : EntityBaseConfiguration<Product>
 {
     public override void Configure(EntityTypeBuilder<Product> builder)
     {
+        base.Configure(builder);
+
         builder.ToTable("products");
 
         builder.HasIndex(p => p.Code)

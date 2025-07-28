@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using FactoryX.Web.Models;
 using Microsoft.AspNetCore.Authorization;
-using FactoryX.Application.Services;
+using FactoryX.Application.Services.Abstracts;
 
 namespace FactoryX.Web.Controllers;
 

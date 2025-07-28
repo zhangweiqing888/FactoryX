@@ -1,6 +1,6 @@
 using FactoryX.Application.DTOs;
 
-namespace FactoryX.Application.Services;
+namespace FactoryX.Application.Services.Abstracts;
 
 public interface IMachineService
 {

@@ -1,10 +1,11 @@
 using FactoryX.Application.DTOs;
+using FactoryX.Application.Services.Abstracts;
 using FactoryX.Domain.Entities;
 using FactoryX.Domain.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FactoryX.Application.Services;
+namespace FactoryX.Application.Services.Concretes;
 
 public class ShiftService : IShiftService
 {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FactoryX.Application.Services;
 using FactoryX.Application.DTOs;
+using FactoryX.Application.Services.Abstracts;
 
 namespace FactoryX.Web.Controllers;
 

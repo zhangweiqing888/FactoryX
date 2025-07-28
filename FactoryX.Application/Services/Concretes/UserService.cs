@@ -2,8 +2,9 @@ using FactoryX.Application.DTOs;
 using FactoryX.Domain.Entities;
 using FactoryX.Domain.Interfaces;
 using FactoryX.Application.Helpers;
+using FactoryX.Application.Services.Abstracts;
 
-namespace FactoryX.Application.Services;
+namespace FactoryX.Application.Services.Concretes;
 
 public class UserService : IUserService
 {
