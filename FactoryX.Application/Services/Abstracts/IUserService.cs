@@ -1,4 +1,5 @@
 using FactoryX.Application.DTOs;
+using FactoryX.Application.DTOs.Requests.UserManagementRequests;
 
 namespace FactoryX.Application.Services.Abstracts;
 
@@ -10,5 +11,5 @@ public interface IUserService
     Task<UserDto?> GetByUsernameAsync(string username);
     Task<UserProfileDto?> GetProfileAsync(int userId);
     Task UpdateProfileAsync(UserProfileDto dto);
-    Task<bool> ChangePasswordAsync(ChangePasswordDto dto);
+    Task<bool> ChangePasswordAsync(int userId, ChangePasswordRequest request);
 }

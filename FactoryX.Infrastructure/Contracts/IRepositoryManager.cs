@@ -6,4 +6,7 @@ public interface IRepositoryManager
     IOperatorRepository OperatorRepository { get; }
     IWorkOrderRepository WorkOrderRepository { get; }
     IShiftRepository ShiftRepository { get; }
+    IDowntimeRepository DowntimeRepository { get; }
+    IUserRepository UserRepository { get; }
+    Task SaveAsync();
 }

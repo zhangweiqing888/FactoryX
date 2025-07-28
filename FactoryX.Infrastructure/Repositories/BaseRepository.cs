@@ -1,10 +1,11 @@
 using System.Linq.Expressions;
+using FactoryX.Domain.Common;
 using FactoryX.Infrastructure.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace FactoryX.Infrastructure.Repositories;
 
-public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : EntityBase
 {
     private readonly AppDbContext _context;
     private DbSet<TEntity> _dbset; 
@@ -13,11 +14,6 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     {
         _context = context;
         _dbset = context.Set<TEntity>();
-    }
-
-    public void Create(TEntity entity)
-    {
-        _dbset.Add(entity);
     }
 
     public Task<IEnumerable<TEntity>> GetAllAsync()
@@ -40,7 +36,22 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
             ? _dbset
             : _dbset.AsNoTracking();
     }
-    public void Remove(TEntity entity)
+
+    public async Task<TEntity?> GetByIdAsync(int id, bool trackChanges = false)
+    {
+		if (trackChanges)
+		{
+			return await _dbset.FirstOrDefaultAsync(e => e.Id == id);
+		}
+		return await _dbset.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+	}
+
+	public void Create(TEntity entity)
+	{
+		_dbset.Add(entity);
+	}
+
+	public void Remove(TEntity entity)
     {
         _dbset.Remove(entity);
     }

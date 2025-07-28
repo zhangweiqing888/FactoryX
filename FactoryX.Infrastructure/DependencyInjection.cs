@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using FactoryX.Domain.Interfaces;
-using FactoryX.Application.Services;
 using FactoryX.Infrastructure.Contracts;
 using FactoryX.Infrastructure.Repositories;
 
@@ -21,6 +20,8 @@ public static class DependencyInjection
         services.AddScoped<IOperatorRepository, OperatorRepository>();
 		services.AddScoped<IShiftRepository, ShiftRepository>();
 		services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IDowntimeRepository, DowntimeRepository>();
 		services.AddScoped<IRepositoryManager, RepositoryManager>();
         //services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         
