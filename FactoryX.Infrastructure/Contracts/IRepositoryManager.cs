@@ -8,5 +8,9 @@ public interface IRepositoryManager
     IShiftRepository ShiftRepository { get; }
     IDowntimeRepository DowntimeRepository { get; }
     IUserRepository UserRepository { get; }
+    IProductRepository ProductRepository { get; }
+    IMaterialRepository MaterialRepository { get; }
+    IMaterialUsageRepository MaterialUsageRepository { get; }
+    IProductionRecordRepository ProductionRecordRepository { get; }
     Task SaveAsync();
 }
