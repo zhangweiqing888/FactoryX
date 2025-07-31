@@ -1,0 +1,6 @@
+﻿namespace FactoryX.Application.DTOs.Responses.AuthenticationResponses;
+
+public sealed record RegisterResponse
+{
+
+}

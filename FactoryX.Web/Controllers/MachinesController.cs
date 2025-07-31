@@ -9,12 +9,14 @@ namespace FactoryX.Web.Controllers;
 public class MachinesController : Controller
 {
     private readonly IMachineService _machineService;
-    public MachinesController(IMachineService machineService)
-    {
-        _machineService = machineService;
-    }
+    private readonly IServiceManager _serviceManager;
+	public MachinesController(IMachineService machineService, IServiceManager serviceManager)
+	{
+		_machineService = machineService;
+		_serviceManager = serviceManager;
+	}
 
-    public async Task<IActionResult> Index()
+	public async Task<IActionResult> Index()
     {
         var machines = await _machineService.GetAllAsync();
         return View(machines);

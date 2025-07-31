@@ -5,6 +5,7 @@ using FactoryX.Web.Services.Abstracts;
 using FactoryX.Web.Middlewares;
 using FactoryX.Application.Services.Concretes;
 using FactoryX.Application.Services.Abstracts;
+using FactoryX.Application.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,7 @@ builder.Services.AddControllersWithViews();
 // Database Configuration
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddInfrastructure(connectionString ?? "");
-
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 // Application Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMachineService, MachineService>();
@@ -31,11 +32,11 @@ builder.Services.AddScoped<IFirstVisitService, FirstVisitService>();
 // Session Configuration
 builder.Services.AddSession(options =>
 {
-	options.IdleTimeout = TimeSpan.FromMinutes(30);
-	options.Cookie.HttpOnly = true;
-	options.Cookie.IsEssential = true;
-	options.Cookie.SameSite = SameSiteMode.Lax;
-	options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SameSite = SameSiteMode.Lax;
+    options.Cookie.SecurePolicy = builder.Environment.IsDevelopment() ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
 });
 
 // Authentication and Authorization Configuration
@@ -73,7 +74,7 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<FirstVisitMiddleware>();
- 
+
 app.MapStaticAssets();
 
 // Custom Routes
@@ -83,9 +84,9 @@ app.MapControllerRoute(
     defaults: new { controller = "Account", action = "Login" });
 
 app.MapControllerRoute(
-	name: "register",
-	pattern: "register",
-	defaults: new { controller = "Account", action = "Register" });
+    name: "register",
+    pattern: "register",
+    defaults: new { controller = "Account", action = "Register" });
 
 // Default Route
 app.MapControllerRoute(
