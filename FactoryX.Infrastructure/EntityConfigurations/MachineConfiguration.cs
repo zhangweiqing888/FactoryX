@@ -8,6 +8,8 @@ public class MachineConfiguration : EntityBaseConfiguration<Machine>
 {
     public override void Configure(EntityTypeBuilder<Machine> builder)
     {
+        base.Configure(builder);
+
         builder.ToTable("machines");
 
         builder.Property(m => m.Name)

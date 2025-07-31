@@ -8,6 +8,8 @@ public class WorkOrderConfiguration : EntityBaseConfiguration<WorkOrder>
 {
     public override void Configure(EntityTypeBuilder<WorkOrder> builder)
     {
+        base.Configure(builder);
+
         builder.ToTable("work_orders");
 
         builder.Property(w => w.Status).IsRequired().HasMaxLength(30);

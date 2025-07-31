@@ -8,6 +8,8 @@ public class ShiftConfiguration : EntityBaseConfiguration<Shift>
 {
     public override void Configure(EntityTypeBuilder<Shift> builder)
     {
+        base.Configure(builder);
+
         builder.ToTable("shifts");
 
         builder.Property(s => s.Name)

@@ -8,6 +8,8 @@ public class MaterialUsageConfiguration : EntityBaseConfiguration<MaterialUsage>
 {
     public override void Configure(EntityTypeBuilder<MaterialUsage> builder)
     {
+        base.Configure(builder);
+
         builder.ToTable("material_usages");
 
         builder.Property(mu => mu.Quantity)

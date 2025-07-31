@@ -1,20 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
-using FactoryX.Application.Services;
 using FactoryX.Application.DTOs;
 using FactoryX.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using FactoryX.Application.Services.Abstracts;
+using FactoryX.Application.DTOs.Requests.UserManagementRequests;
 
 namespace FactoryX.Web.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly IUserService _userService;
-    public AccountController(IUserService userService)
+    private readonly IServiceManager _serviceManager;
+    public AccountController(IServiceManager serviceManager)
     {
-        _userService = userService;
+        _serviceManager = serviceManager;
     }
 
     [HttpGet]
@@ -29,7 +30,7 @@ public class AccountController : Controller
     {
         if (!ModelState.IsValid)
             return View(model);
-        var user = await _userService.AuthenticateAsync(new UserLoginDto { Username = model.Username, Password = model.Password });
+        var user = await _serviceManager.UserService.AuthenticateAsync(new UserLoginDto { Username = model.Username, Password = model.Password });
         if (user == null)
         {
             ModelState.AddModelError(string.Empty, "Invalid username or password.");
@@ -65,7 +66,7 @@ public class AccountController : Controller
             return View(model);
         try
         {
-            var user = await _userService.RegisterAsync(new UserRegisterDto { Username = model.Username, Password = model.Password, Role = model.Role });
+            var user = await _serviceManager.UserService.RegisterAsync(new UserRegisterDto { Username = model.Username, Password = model.Password, Role = model.Role });
             return RedirectToAction("Login");
         }
         catch (Exception ex)
@@ -87,7 +88,7 @@ public class AccountController : Controller
     public async Task<IActionResult> Profile()
     {
         var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        var profile = await _userService.GetProfileAsync(userId);
+        var profile = await _serviceManager.UserService.GetProfileAsync(userId);
         return View(profile);
     }
 
@@ -97,7 +98,7 @@ public class AccountController : Controller
     public async Task<IActionResult> Profile(UserProfileDto dto)
     {
         if (!ModelState.IsValid) return View(dto);
-        await _userService.UpdateProfileAsync(dto);
+        await _serviceManager.UserService.UpdateProfileAsync(dto);
         TempData["Success"] = "Profil başarıyla güncellendi.";
         return RedirectToAction("Profile");
     }
@@ -112,21 +113,26 @@ public class AccountController : Controller
     [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ChangePassword(ChangePasswordDto dto)
+    public async Task<IActionResult> ChangePassword(ChangePasswordRequest request)
     {
-        dto.UserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-        if (!ModelState.IsValid) return View(dto);
-        var result = await _userService.ChangePasswordAsync(dto);
+        string? userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if(string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out var userId)) {
+            return Unauthorized();
+        }
+        if (!ModelState.IsValid) return View(request);
+
+        var result = await _serviceManager.UserService.ChangePasswordAsync(userId: userId, request);
         if (!result)
         {
             ModelState.AddModelError(string.Empty, "Mevcut şifre yanlış veya işlem başarısız.");
-            return View(dto);
+            return View(request);
         }
+
         TempData["Success"] = "Şifre başarıyla değiştirildi.";
         return RedirectToAction("Profile");
     }
 
-    private IActionResult RedirectToLocal(string? returnUrl)
+	private IActionResult RedirectToLocal(string? returnUrl)
     {
         if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
             return Redirect(returnUrl);

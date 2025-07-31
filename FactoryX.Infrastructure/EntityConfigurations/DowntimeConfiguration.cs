@@ -8,6 +8,8 @@ public class DowntimeConfiguration : EntityBaseConfiguration<Downtime>
 {
     public override void Configure(EntityTypeBuilder<Downtime> builder)
     {
+        base.Configure(builder);
+
         builder.ToTable("downtimes");
 
         builder.Property(d => d.Reason)

@@ -8,6 +8,8 @@ public class MaterialConfiguration : EntityBaseConfiguration<Material>
 {
     public override void Configure(EntityTypeBuilder<Material> builder)
     {
+        base.Configure(builder);
+
         builder.ToTable("materials");
 
         builder.Property(m => m.Code)

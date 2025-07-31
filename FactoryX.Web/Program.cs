@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using FactoryX.Infrastructure;
-using FactoryX.Application.Services;
 using FactoryX.Web.Services.Concretes;
 using FactoryX.Web.Services.Abstracts;
 using FactoryX.Web.Middlewares;
+using FactoryX.Application.Services.Concretes;
+using FactoryX.Application.Services.Abstracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IWorkOrderService, WorkOrderService>();
 builder.Services.AddScoped<IOperatorService, OperatorService>();
 builder.Services.AddScoped<IProductionRecordService, ProductionRecordService>();
 builder.Services.AddScoped<IShiftService, ShiftService>();
+builder.Services.AddScoped<IServiceManager, ServiceManager>();
 
 // Web Services
 builder.Services.AddScoped<IFirstVisitService, FirstVisitService>();

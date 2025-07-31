@@ -1,13 +1,15 @@
+using FactoryX.Domain.Common;
 using System.Linq.Expressions;
 
 namespace FactoryX.Infrastructure.Contracts;
 
-public interface IBaseRepository<T> where T : class
+public interface IBaseRepository<TEntity> where TEntity : EntityBase
 {
-    Task<IEnumerable<T>> GetAllAsync();
-    Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate, bool trackChanges = false);
-    IQueryable<T> GetAllQueryableAsync(bool trackChanges = false);
-    void Create(T entity);
-    void Update(T entity);
-    void Remove(T entity);
+    Task<IEnumerable<TEntity>> GetAllAsync();
+    Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, bool trackChanges = false);
+    IQueryable<TEntity> GetAllQueryableAsync(bool trackChanges = false);
+    Task<TEntity?> GetByIdAsync(int id, bool trackChanges = false);
+    void Create(TEntity entity);
+    void Update(TEntity entity);
+    void Remove(TEntity entity);
 }

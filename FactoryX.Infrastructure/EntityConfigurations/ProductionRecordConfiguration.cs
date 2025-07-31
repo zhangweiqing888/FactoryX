@@ -8,6 +8,8 @@ public class ProductionRecordConfiguration : EntityBaseConfiguration<ProductionR
 {
     public override void Configure(EntityTypeBuilder<ProductionRecord> builder)
     {
+        base.Configure(builder);
+
         builder.ToTable("production_records");
 
         builder.Property(pr => pr.QuantityProduced)

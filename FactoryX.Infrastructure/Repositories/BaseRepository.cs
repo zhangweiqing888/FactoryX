@@ -1,52 +1,63 @@
 using System.Linq.Expressions;
+using FactoryX.Domain.Common;
 using FactoryX.Infrastructure.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 namespace FactoryX.Infrastructure.Repositories;
 
-public class BaseRepository<T> : IBaseRepository<T> where T : class
+public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : EntityBase
 {
-    internal readonly AppDbContext _context;
-    //internal DbSet<T> _dbset; 
+    private readonly AppDbContext _context;
+    private DbSet<TEntity> _dbset; 
 
     public BaseRepository(AppDbContext context)
     {
         _context = context;
-        //_dbset = context.Set<T>();
-	}
-
-    public void Create(T entity)
-    {
-        _context.Set<T>().Add(entity);
+        _dbset = context.Set<TEntity>();
     }
 
-    public Task<IEnumerable<T>> GetAllAsync()
+    public Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        return Task.FromResult(_context.Set<T>().AsEnumerable());
+        return Task.FromResult(_dbset.AsEnumerable());
     }
 
-    public Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate, bool trackChanges = false)
+    public Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate, bool trackChanges = false)
     {
         if (trackChanges)
         {
-            return Task.FromResult(_context.Set<T>().Where(predicate).AsEnumerable());
+            return Task.FromResult(_dbset.Where(predicate).AsEnumerable());
         }
-        return Task.FromResult(_context.Set<T>().AsNoTracking().Where(predicate).AsEnumerable());
+        return Task.FromResult(_dbset.AsNoTracking().Where(predicate).AsEnumerable());
     }
 
-    public IQueryable<T> GetAllQueryableAsync(bool trackChanges = false)
+    public IQueryable<TEntity> GetAllQueryableAsync(bool trackChanges = false)
     {
         return trackChanges
-            ? _context.Set<T>()
-            : _context.Set<T>().AsNoTracking();
-    }
-    public void Remove(T entity)
-    {
-        _context.Set<T>().Remove(entity);
+            ? _dbset
+            : _dbset.AsNoTracking();
     }
 
-    public void Update(T entity)
+    public async Task<TEntity?> GetByIdAsync(int id, bool trackChanges = false)
     {
-        _context.Set<T>().Update(entity);
+		if (trackChanges)
+		{
+			return await _dbset.FirstOrDefaultAsync(e => e.Id == id);
+		}
+		return await _dbset.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+	}
+
+	public void Create(TEntity entity)
+	{
+		_dbset.Add(entity);
+	}
+
+	public void Remove(TEntity entity)
+    {
+        _dbset.Remove(entity);
+    }
+
+    public void Update(TEntity entity)
+    {
+        _dbset.Update(entity);
     }
 }

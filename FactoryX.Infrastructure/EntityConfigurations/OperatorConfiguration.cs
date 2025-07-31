@@ -8,6 +8,8 @@ public class OperatorConfiguration : EntityBaseConfiguration<Operator>
 {
     public override void Configure(EntityTypeBuilder<Operator> builder)
     {
+        base.Configure(builder);
+
         builder.ToTable("operators");
 
         builder.Property(o => o.Name)

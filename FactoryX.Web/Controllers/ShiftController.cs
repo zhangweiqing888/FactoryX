@@ -1,5 +1,5 @@
 using FactoryX.Application.DTOs;
-using FactoryX.Application.Services;
+using FactoryX.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
