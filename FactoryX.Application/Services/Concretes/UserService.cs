@@ -68,11 +68,17 @@ public class UserService : IUserService
 		return user == null ? null : ToDto(user);
 	}
 
-	public async Task<UserProfileResponse?> GetProfileAsync(int userId)
+	public async Task<GetUserProfileResponse?> GetProfileAsync(int userId)
 	{
 		var user = await _repositoryManager.UserRepository.GetByIdAsync(userId);
 		if (user == null) return null;
-		return new UserProfileResponse(Id: user.Id, UserName: user.Username, Email: user.Email, FullName: user.FullName);
+		return new GetUserProfileResponse
+		(
+			Id: user.Id,
+			UserName: user.Username,
+			FullName: user.FullName,
+			Email: user.Email
+		);
 	}
 
 	public async Task UpdateProfileAsync(UserProfileDto dto)

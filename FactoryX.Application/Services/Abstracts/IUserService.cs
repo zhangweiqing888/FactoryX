@@ -12,7 +12,7 @@ public interface IUserService
     Task<RegisterResponse> RegisterAsync(RegisterRequest request);
     Task<UserDto?> GetByIdAsync(int id);
     Task<UserDto?> GetByUsernameAsync(string username);
-    Task<UserProfileResponse?> GetProfileAsync(int userId);
+    Task<GetUserProfileResponse?> GetProfileAsync(int userId);
     Task UpdateProfileAsync(UserProfileDto dto);
     Task<bool> ChangePasswordAsync(int userId, ChangePasswordRequest request);
 }
