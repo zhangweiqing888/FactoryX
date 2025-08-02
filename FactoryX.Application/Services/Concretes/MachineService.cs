@@ -2,7 +2,6 @@ using AutoMapper;
 using FactoryX.Application.DTOs.Requests.MachineRequests;
 using FactoryX.Application.DTOs.Responses.MachineResponses;
 using FactoryX.Application.Services.Abstracts;
-using FactoryX.Domain.Common;
 using FactoryX.Domain.Entities;
 using FactoryX.Infrastructure.Contracts;
 
@@ -51,7 +50,7 @@ public class MachineService : IMachineService
 	public async Task DeleteAsync(DeleteMachineRequest request)
 	{
 		var machine = await _repositoryManager.MachineRepository.GetByIdAsync(id: request.Id, trackChanges: true);
-		if(machine != null)
+		if (machine != null)
 		{
 			_repositoryManager.MachineRepository.Remove(machine);
 			await _repositoryManager.SaveAsync();

@@ -1,80 +1,79 @@
+using FactoryX.Application.DTOs.Requests.MachineRequests;
+using FactoryX.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using FactoryX.Application.DTOs;
-using FactoryX.Application.Services.Abstracts;
 
 namespace FactoryX.Web.Controllers;
 
 [Authorize]
 public class MachinesController : Controller
 {
-    private readonly IMachineService _machineService;
-    private readonly IServiceManager _serviceManager;
-	public MachinesController(IMachineService machineService, IServiceManager serviceManager)
+	private readonly IServiceManager _serviceManager;
+	public MachinesController(IServiceManager serviceManager)
 	{
-		_machineService = machineService;
 		_serviceManager = serviceManager;
 	}
 
 	public async Task<IActionResult> Index()
-    {
-        var machines = await _machineService.GetAllAsync();
-        return View(machines);
-    }
+	{
+		var machines = await _serviceManager.MachineService.GetAllAsync();
+		return View(machines);
+	}
 
-    public async Task<IActionResult> Details(int id)
-    {
-        var machine = await _machineService.GetByIdAsync(id);
-        if (machine == null) return NotFound();
-        return View(machine);
-    }
+	public async Task<IActionResult> Details(int id)
+	{
+		var machine = await _serviceManager.MachineService.GetByIdAsync(id);
+		if (machine == null) return NotFound();
+		return View(machine);
+	}
 
-    public IActionResult Create()
-    {
-        return View();
-    }
+	public IActionResult Create()
+	{
+		return View();
+	}
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(MachineDto dto)
-    {
-        if (!ModelState.IsValid) return View(dto);
-        await _machineService.CreateAsync(dto);
-        TempData["Success"] = "Machine created successfully.";
-        return RedirectToAction(nameof(Index));
-    }
+	[HttpPost]
+	[ValidateAntiForgeryToken]
+	public async Task<IActionResult> Create(InsertMachineRequest request)
+	{
+		if (!ModelState.IsValid) return View(request);
+		await _serviceManager.MachineService.CreateAsync(request);
+		TempData["Success"] = "Machine created successfully.";
+		return RedirectToAction(nameof(Index));
+	}
 
-    public async Task<IActionResult> Edit(int id)
-    {
-        var machine = await _machineService.GetByIdAsync(id);
-        if (machine == null) return NotFound();
-        return View(machine);
-    }
+	public async Task<IActionResult> Edit(int id)
+	{
+		var machine = await _serviceManager.MachineService.GetByIdAsync(id);
+		if (machine == null) return NotFound();
+		return View(machine);
+	}
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, MachineDto dto)
-    {
-        if (id != dto.Id) return BadRequest();
-        if (!ModelState.IsValid) return View(dto);
-        await _machineService.UpdateAsync(dto);
-        TempData["Success"] = "Machine updated successfully.";
-        return RedirectToAction(nameof(Index));
-    }
+	[HttpPost]
+	[ValidateAntiForgeryToken]
+	public async Task<IActionResult> Edit(int id, UpdateMachineRequest request)
+	{
+		if (id != request.Id) return BadRequest();
+		if (!ModelState.IsValid) return View(request);
+		await _serviceManager.MachineService.UpdateAsync(request);
+		TempData["Success"] = "Machine updated successfully.";
+		return RedirectToAction(nameof(Index));
+	}
 
-    public async Task<IActionResult> Delete(int id)
-    {
-        var machine = await _machineService.GetByIdAsync(id);
-        if (machine == null) return NotFound();
-        return View(machine);
-    }
+	public async Task<IActionResult> Delete(int id)
+	{
+		var machine = await _serviceManager.MachineService.GetByIdAsync(id);
+		if (machine == null) return NotFound();
+		return View(machine);
+	}
 
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
-    {
-        await _machineService.DeleteAsync(id);
-        TempData["Success"] = "Machine deleted successfully.";
-        return RedirectToAction(nameof(Index));
-    }
+	[HttpPost, ActionName("Delete")]
+	[ValidateAntiForgeryToken]
+	public async Task<IActionResult> DeleteConfirmed(int id)
+	{
+		DeleteMachineRequest request = new DeleteMachineRequest(id);
+		await _serviceManager.MachineService.DeleteAsync(request);
+		TempData["Success"] = "Machine deleted successfully.";
+		return RedirectToAction(nameof(Index));
+	}
 }

@@ -1,12 +1,14 @@
-using FactoryX.Application.DTOs;
+using FactoryX.Application.DTOs.Requests.ProductRequests;
+using FactoryX.Application.DTOs.Responses.Product;
+using FactoryX.Application.DTOs.Responses.ProductResponses;
 
 namespace FactoryX.Application.Services.Abstracts;
 
 public interface IProductService
 {
-    Task<IEnumerable<ProductDto>> GetAllAsync();
-    Task<ProductDto?> GetByIdAsync(int id);
-    Task<ProductDto> CreateAsync(ProductDto dto);
-    Task UpdateAsync(ProductDto dto);
-    Task DeleteAsync(int id);
+	Task<IEnumerable<GetAllProductResponse>> GetAllAsync();
+	Task<GetProductResponse?> GetByIdAsync(int id);
+	Task<InsertProductResponse> CreateAsync(InsertProductRequest request);
+	Task UpdateAsync(UpdateProductRequest request);
+	Task DeleteAsync(DeleteProductRequest request);
 }
