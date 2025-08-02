@@ -7,6 +7,8 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using FactoryX.Application.Services.Abstracts;
 using FactoryX.Application.DTOs.Requests.UserManagementRequests;
+using FactoryX.Application.DTOs.Requests.AuthenticationRequests;
+using FactoryX.Application.DTOs.Responses.AuthenticationResponses;
 
 namespace FactoryX.Web.Controllers;
 
@@ -30,7 +32,7 @@ public class AccountController : Controller
     {
         if (!ModelState.IsValid)
             return View(model);
-        var user = await _serviceManager.UserService.AuthenticateAsync(new UserLoginDto { Username = model.Username, Password = model.Password });
+        LoginResponse? user = await _serviceManager.UserService.AuthenticateAsync(new LoginRequest(Username: model.Username, Password: model.Password));
         if (user == null)
         {
             ModelState.AddModelError(string.Empty, "Invalid username or password.");
@@ -66,7 +68,14 @@ public class AccountController : Controller
             return View(model);
         try
         {
-            var user = await _serviceManager.UserService.RegisterAsync(new UserRegisterDto { Username = model.Username, Password = model.Password, Role = model.Role });
+            RegisterRequest registerRequest = new RegisterRequest(
+                
+                Username: model.Username,
+                Password: model.Password,
+                ConfirmPassword: model.ConfirmPassword,
+                Role: model.Role);
+
+            var user = await _serviceManager.UserService.RegisterAsync(registerRequest);
             return RedirectToAction("Login");
         }
         catch (Exception ex)
