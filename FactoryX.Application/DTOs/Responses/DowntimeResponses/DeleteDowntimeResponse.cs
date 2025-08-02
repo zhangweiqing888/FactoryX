@@ -1,6 +1,5 @@
 namespace FactoryX.Application.DTOs.Responses.DowntimeResponses;
 
-public record DeleteDowntimeResponse
-{
-
-}
+public sealed record DeleteDowntimeResponse(
+    int Id
+);
