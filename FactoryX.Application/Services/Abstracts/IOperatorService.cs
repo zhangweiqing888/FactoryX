@@ -1,12 +1,14 @@
-using FactoryX.Application.DTOs;
+using FactoryX.Application.DTOs.Requests.OperatorRequests;
+using FactoryX.Application.DTOs.Responses.Operator;
+using FactoryX.Application.DTOs.Responses.OperatorResponses;
 
 namespace FactoryX.Application.Services.Abstracts;
 
 public interface IOperatorService
 {
-    Task<IEnumerable<OperatorDto>> GetAllAsync();
-    Task<OperatorDto?> GetByIdAsync(int id);
-    Task<OperatorDto> CreateAsync(OperatorDto dto);
-    Task UpdateAsync(OperatorDto dto);
-    Task DeleteAsync(int id);
+    Task<IEnumerable<GetAllOperatorResponse>> GetAllAsync();
+    Task<GetOperatorResponse?> GetByIdAsync(int id);
+    Task<InsertOperatorResponse> CreateAsync(InsertOperatorRequest request);
+    Task UpdateAsync(UpdateOperatorRequest request);
+    Task DeleteAsync(DeleteOperatorRequest request);
 }

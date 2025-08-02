@@ -1,69 +1,58 @@
-using FactoryX.Application.DTOs;
+using AutoMapper;
+using FactoryX.Application.DTOs.Requests.OperatorRequests;
+using FactoryX.Application.DTOs.Responses.Operator;
+using FactoryX.Application.DTOs.Responses.OperatorResponses;
 using FactoryX.Application.Services.Abstracts;
 using FactoryX.Domain.Entities;
-using FactoryX.Domain.Interfaces;
+using FactoryX.Infrastructure.Contracts;
 
 namespace FactoryX.Application.Services.Concretes;
 
 public class OperatorService : IOperatorService
 {
-    private readonly IRepository<Operator> _repository;
-    private readonly IUnitOfWork _unitOfWork;
+	private readonly IRepositoryManager _repositoryManager;
+	private readonly IMapper _mapper;
 
-    public OperatorService(IRepository<Operator> repository, IUnitOfWork unitOfWork)
-    {
-        _repository = repository;
-        _unitOfWork = unitOfWork;
-    }
+	public OperatorService(IRepositoryManager repositoryManager, IMapper mapper)
+	{
+		_repositoryManager = repositoryManager;
+		_mapper = mapper;
+	}
 
-    public async Task<IEnumerable<OperatorDto>> GetAllAsync()
-    {
-        var operators = await _repository.GetAllAsync();
-        return operators.Select(ToDto);
-    }
+	public async Task<IEnumerable<GetAllOperatorResponse>> GetAllAsync()
+	{
+		var operators = await _repositoryManager.OperatorRepository.GetAllAsync();
+		return _mapper.Map<IEnumerable<GetAllOperatorResponse>>(operators);
+	}
 
-    public async Task<OperatorDto?> GetByIdAsync(int id)
-    {
-        var op = await _repository.GetByIdAsync(id);
-        return op == null ? null : ToDto(op);
-    }
+	public async Task<GetOperatorResponse?> GetByIdAsync(int id)
+	{
+		var op = await _repositoryManager.OperatorRepository.GetByIdAsync(id);
+		return op == null ? null : _mapper.Map<GetOperatorResponse>(op);
+	}
 
-    public async Task<OperatorDto> CreateAsync(OperatorDto dto)
-    {
-        var entity = FromDto(dto);
-        await _repository.AddAsync(entity);
-        await _unitOfWork.SaveChangesAsync();
-        return ToDto(entity);
-    }
+	public async Task<InsertOperatorResponse> CreateAsync(InsertOperatorRequest dto)
+	{
+		var entity = _mapper.Map<Operator>(dto);
+		_repositoryManager.OperatorRepository.Create(entity);
+		await _repositoryManager.SaveAsync();
+		return _mapper.Map<InsertOperatorResponse>(entity);
+	}
 
-    public async Task UpdateAsync(OperatorDto dto)
-    {
-        var entity = FromDto(dto);
-        _repository.Update(entity);
-        await _unitOfWork.SaveChangesAsync();
-    }
+	public async Task UpdateAsync(UpdateOperatorRequest dto)
+	{
+		var entity = _mapper.Map<Operator>(dto);
+		_repositoryManager.OperatorRepository.Update(entity);
+		await _repositoryManager.SaveAsync();
+	}
 
-    public async Task DeleteAsync(int id)
-    {
-        var entity = await _repository.GetByIdAsync(id);
-        if (entity != null)
-        {
-            _repository.Remove(entity);
-            await _unitOfWork.SaveChangesAsync();
-        }
-    }
-
-    private static OperatorDto ToDto(Operator o) => new()
-    {
-        Id = o.Id,
-        Name = o.Name,
-        EmployeeNumber = o.EmployeeNumber
-    };
-
-    private static Operator FromDto(OperatorDto dto) => new()
-    {
-        Id = dto.Id,
-        Name = dto.Name,
-        EmployeeNumber = dto.EmployeeNumber
-    };
+	public async Task DeleteAsync(DeleteOperatorRequest request)
+	{
+		var entity = await _repositoryManager.OperatorRepository.GetByIdAsync(id: request.Id, trackChanges: true);
+		if (entity != null)
+		{
+			_repositoryManager.OperatorRepository.Remove(entity);
+			await _repositoryManager.SaveAsync();
+		}
+	}
 }
