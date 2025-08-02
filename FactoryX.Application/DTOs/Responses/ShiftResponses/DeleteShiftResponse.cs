@@ -1,6 +1,7 @@
 namespace FactoryX.Application.DTOs.Responses.Shift;
 
-public record DeleteShiftResponse
-{
-
-}
+public sealed record DeleteShiftResponse(
+	int Id,
+	string Name,
+	TimeSpan StartTime,
+	TimeSpan EndTime);

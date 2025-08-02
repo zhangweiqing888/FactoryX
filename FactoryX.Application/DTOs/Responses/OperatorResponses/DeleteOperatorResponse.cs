@@ -1,6 +1,6 @@
 namespace FactoryX.Application.DTOs.Responses.Operator;
 
-public record DeleteOperatorResponse
-{
-
-}
+public sealed record DeleteOperatorResponse(
+	int Id,
+	string Name,
+	string EmployeeNumber);

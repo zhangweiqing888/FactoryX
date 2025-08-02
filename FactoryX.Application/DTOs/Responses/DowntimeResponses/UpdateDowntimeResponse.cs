@@ -1,6 +1,9 @@
 namespace FactoryX.Application.DTOs.Responses.DowntimeResponses;
 
-public record UpdateDowntimeResponse
-{
-
-}
+public sealed record UpdateDowntimeResponse(
+    int Id,
+    int MachineId,
+    DateTime StartTime,
+    DateTime EndTime,
+    string Reason
+);
