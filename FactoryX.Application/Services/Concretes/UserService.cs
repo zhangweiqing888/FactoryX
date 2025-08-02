@@ -1,5 +1,7 @@
 using FactoryX.Application.DTOs;
+using FactoryX.Application.DTOs.Requests.AuthenticationRequests;
 using FactoryX.Application.DTOs.Requests.UserManagementRequests;
+using FactoryX.Application.DTOs.Responses.AuthenticationResponses;
 using FactoryX.Application.Helpers;
 using FactoryX.Application.Services.Abstracts;
 using FactoryX.Domain.Entities;
@@ -16,30 +18,40 @@ public class UserService : IUserService
 		_repositoryManager = repositoryManager;
 	}
 
-	public async Task<UserDto?> AuthenticateAsync(UserLoginDto loginDto)
+	public async Task<LoginResponse?> AuthenticateAsync(LoginRequest request)
 	{
 		var users = await _repositoryManager.UserRepository.GetAllAsync();
-		var user = users.FirstOrDefault(u => u.Username == loginDto.Username);
+		var user = users.FirstOrDefault(u => u.Username == request.Username);
 		if (user == null) return null;
-		if (!PasswordHasher.VerifyPassword(loginDto.Password, user.PasswordHash)) return null;
-		return ToDto(user);
+		if (!PasswordHasher.VerifyPassword(request.Password, user.PasswordHash)) return null;
+		return new LoginResponse
+		(
+			Id: user.Id,
+			Username: user.Username,
+			Role: user.Role
+		);
 	}
 
-	public async Task<UserDto> RegisterAsync(UserRegisterDto registerDto)
+	public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
 	{
 		var users = await _repositoryManager.UserRepository.GetAllAsync();
-		if (users.Any(u => u.Username == registerDto.Username))
+		if (users.Any(u => u.Username == request.Username))
 			throw new InvalidOperationException("Username already exists.");
 		var user = new User
 		{
-			Username = registerDto.Username,
-			PasswordHash = PasswordHasher.HashPassword(registerDto.Password),
-			Role = registerDto.Role,
-			FullName = registerDto.FullName
+			Username = request.Username,
+			PasswordHash = PasswordHasher.HashPassword(request.Password),
+			Role = request.Role,
+			
 		};
 		_repositoryManager.UserRepository.Create(user);
 		await _repositoryManager.SaveAsync();
-		return ToDto(user);
+		return new RegisterResponse
+		(
+			Id: user.Id,
+			Username: user.Username,
+			Role: user.Role
+		);
 	}
 
 	public async Task<UserDto?> GetByIdAsync(int id)
