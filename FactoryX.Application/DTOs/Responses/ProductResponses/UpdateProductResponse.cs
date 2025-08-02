@@ -1,6 +1,7 @@
 namespace FactoryX.Application.DTOs.Responses.Product;
 
-public record UpdateProductResponse
-{
-
-}
+public sealed record UpdateProductResponse(
+	int Id,
+	string Name,
+	string Code,
+	string Description);

@@ -1,6 +1,10 @@
 namespace FactoryX.Application.DTOs.Responses.ProductionRecord;
 
-public record UpdateProductionRecordResponse
-{
-
-}
+public sealed record UpdateProductionRecordResponse(
+	int Id,
+	int WorkOrderId,
+	int OperatorId,
+	string OperatorName,
+	DateTime TimeStamp,
+	int QuantityProduced
+);

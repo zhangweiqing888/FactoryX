@@ -1,6 +1,7 @@
 namespace FactoryX.Application.DTOs.Responses.Shift;
 
-public record InsertShiftResponse
-{
-
-}
+public sealed record InsertShiftResponse(
+	int Id,
+	string Name,
+	TimeSpan StartTime,
+	TimeSpan EndTime);

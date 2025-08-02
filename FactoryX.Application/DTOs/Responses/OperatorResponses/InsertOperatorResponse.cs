@@ -1,6 +1,6 @@
 namespace FactoryX.Application.DTOs.Responses.Operator;
 
-public record InsertOperatorResponse
-{
-
-}
+public sealed record InsertOperatorResponse(
+	int Id,
+	string Name,
+	string EmployeeNumber);

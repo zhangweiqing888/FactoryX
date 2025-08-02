@@ -1,6 +1,9 @@
 namespace FactoryX.Application.DTOs.Responses.ProductionRecord;
 
-public record InsertProductionRecordResponse
-{
-
-}
+public sealed record InsertProductionRecordResponse(
+	int Id,
+	int WorkOrderId,
+	int OperatorId,
+	string OperatorName,
+	DateTime TimeStamp,
+	int QuantityProduced);

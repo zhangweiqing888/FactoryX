@@ -1,6 +1,6 @@
 namespace FactoryX.Application.DTOs.Responses.Operator;
 
-public record UpdateOperatorResponse
-{
-
-}
+public sealed record UpdateOperatorResponse(
+	int Id,
+	string Name,
+	string EmployeeNumber);
