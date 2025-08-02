@@ -2,6 +2,7 @@ using FactoryX.Application.DTOs;
 using FactoryX.Application.DTOs.Requests.AuthenticationRequests;
 using FactoryX.Application.DTOs.Requests.UserManagementRequests;
 using FactoryX.Application.DTOs.Responses.AuthenticationResponses;
+using FactoryX.Application.DTOs.Responses.UserManagementResponses;
 using FactoryX.Application.Helpers;
 using FactoryX.Application.Services.Abstracts;
 using FactoryX.Domain.Entities;
@@ -67,16 +68,11 @@ public class UserService : IUserService
 		return user == null ? null : ToDto(user);
 	}
 
-	public async Task<UserProfileDto?> GetProfileAsync(int userId)
+	public async Task<UserProfileResponse?> GetProfileAsync(int userId)
 	{
 		var user = await _repositoryManager.UserRepository.GetByIdAsync(userId);
 		if (user == null) return null;
-		return new UserProfileDto
-		{
-			Id = user.Id,
-			UserName = user.Username,
-			FullName = user.FullName
-		};
+		return new UserProfileResponse(Id: user.Id, UserName: user.Username, Email: user.Email, FullName: user.FullName);
 	}
 
 	public async Task UpdateProfileAsync(UserProfileDto dto)
