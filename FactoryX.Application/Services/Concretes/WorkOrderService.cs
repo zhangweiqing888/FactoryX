@@ -1,109 +1,90 @@
-using FactoryX.Application.DTOs;
+using AutoMapper;
+using FactoryX.Application.DTOs.Requests.WorkOrderRequests;
+using FactoryX.Application.DTOs.Responses.WorkOrder;
+using FactoryX.Application.DTOs.Responses.WorkOrderResponses;
 using FactoryX.Application.Services.Abstracts;
 using FactoryX.Domain.Entities;
-using FactoryX.Domain.Interfaces;
+using FactoryX.Infrastructure.Contracts;
 
 namespace FactoryX.Application.Services.Concretes;
 
 public class WorkOrderService : IWorkOrderService
 {
-    private readonly IRepository<WorkOrder> _repository;
-    private readonly IRepository<Product> _productRepository;
-    private readonly IRepository<Machine> _machineRepository;
-    private readonly IUnitOfWork _unitOfWork;
+	private readonly IRepositoryManager _repositoryManager;
+	private readonly IMapper _mapper;
 
-    public WorkOrderService(IRepository<WorkOrder> repository, IRepository<Product> productRepository, IRepository<Machine> machineRepository, IUnitOfWork unitOfWork)
-    {
-        _repository = repository;
-        _productRepository = productRepository;
-        _machineRepository = machineRepository;
-        _unitOfWork = unitOfWork;
-    }
+	public WorkOrderService(IRepositoryManager repositoryManager, IMapper mapper)
+	{
+		_repositoryManager = repositoryManager;
+		_mapper = mapper;
+	}
 
-    public async Task<IEnumerable<WorkOrderDto>> GetAllAsync()
-    {
-        var workOrders = await _repository.GetAllAsync();
-        var products = (await _productRepository.GetAllAsync()).ToDictionary(p => p.Id, p => p);
-        var machines = (await _machineRepository.GetAllAsync()).ToDictionary(m => m.Id, m => m);
-        return workOrders.Select(w => ToDto(w, products, machines));
-    }
+	public async Task<IEnumerable<GetAllWorkOrderResponse>> GetAllAsync()
+	{
+		var workOrders = await _repositoryManager.WorkOrderRepository.GetAllAsync();
+		var products = (await _repositoryManager.ProductRepository.GetAllAsync()).ToDictionary(p => p.Id, p => p);
+		var machines = (await _repositoryManager.MachineRepository.GetAllAsync()).ToDictionary(m => m.Id, m => m);
+		return workOrders.Select(w => new GetAllWorkOrderResponse(
+			w.Id,
+			CreatedAt: w.CreatedAt,
+			UpdatedAt: w.UpdatedAt,
+			ProductId: w.ProductId,
+			ProductName: products.TryGetValue(w.ProductId, out var productName) ? productName.ToString() : null,
+			MachineId: w.MachineId,
+			MachineName: machines.TryGetValue(w.MachineId, out var machineName) ? machineName.ToString() : null,
+			Quantity: w.Quantity,
+			StartDate: w.StartDate,
+			EndDate: w.EndDate,
+			Status: w.Status
+		));
+	}
 
-    public async Task<WorkOrderDto?> GetByIdAsync(int id)
-    {
-        var workOrder = await _repository.GetByIdAsync(id);
-        if (workOrder == null) return null;
-        var product = await _productRepository.GetByIdAsync(workOrder.ProductId);
-        var machine = await _machineRepository.GetByIdAsync(workOrder.MachineId);
-        return ToDto(workOrder, product, machine);
-    }
+	public async Task<GetWorkOrderResponse?> GetByIdAsync(int id)
+	{
+		var workOrder = await _repositoryManager.WorkOrderRepository.GetByIdAsync(id);
+		if (workOrder == null) return null;
+		var product = await _repositoryManager.ProductRepository.GetByIdAsync(workOrder.ProductId);
+		var machine = await _repositoryManager.MachineRepository.GetByIdAsync(workOrder.MachineId);
+		return new GetWorkOrderResponse(
+		   Id: workOrder.Id,
+		   CreatedAt: workOrder.CreatedAt,
+		   UpdatedAt: workOrder.UpdatedAt,
+		   ProductId: workOrder.ProductId,
+		   ProductName: product?.Name,
+		   MachineId: workOrder.MachineId,
+		   MachineName: machine?.Name,
+		   Quantity: workOrder.Quantity,
+		   StartDate: workOrder.StartDate,
+		   EndDate: workOrder.EndDate,
+		   Status: workOrder.Status);
+	}
 
-    public async Task<WorkOrderDto> CreateAsync(WorkOrderDto dto)
-    {
-        var entity = FromDto(dto);
-        await _repository.AddAsync(entity);
-        await _unitOfWork.SaveChangesAsync();
-        return ToDto(entity);
-    }
+	public async Task<InsertWorkOrderResponse> CreateAsync(InsertWorkOrderRequest request)
+	{
+		var workOrder = _mapper.Map<WorkOrder>(request);
+		_repositoryManager.WorkOrderRepository.Create(workOrder);
+		await _repositoryManager.SaveAsync();
 
-    public async Task UpdateAsync(WorkOrderDto dto)
-    {
-        var entity = FromDto(dto);
-        _repository.Update(entity);
-        await _unitOfWork.SaveChangesAsync();
-    }
+		return _mapper.Map<InsertWorkOrderResponse>(workOrder);
+	}
 
-    public async Task DeleteAsync(int id)
-    {
-        var entity = await _repository.GetByIdAsync(id);
-        if (entity != null)
-        {
-            _repository.Remove(entity);
-            await _unitOfWork.SaveChangesAsync();
-        }
-    }
+	public async Task UpdateAsync(UpdateWorkOrderRequest request)
+	{
+		WorkOrder? workOrder = await _repositoryManager.WorkOrderRepository.GetByIdAsync(request.Id);
+		if (workOrder == null) return;
 
-    private static WorkOrderDto ToDto(WorkOrder w, IDictionary<int, Product>? products = null, IDictionary<int, Machine>? machines = null)
-    {
-        var dto = new WorkOrderDto
-        {
-            Id = w.Id,
-            ProductId = w.ProductId,
-            MachineId = w.MachineId,
-            Quantity = w.Quantity,
-            StartDate = w.StartDate,
-            EndDate = w.EndDate,
-            Status = w.Status,
-            ProductName = products != null && products.TryGetValue(w.ProductId, out var p) ? p.Name : null,
-            MachineName = machines != null && machines.TryGetValue(w.MachineId, out var m) ? m.Name : null
-        };
-        return dto;
-    }
+		_mapper.Map(request, workOrder);
+		_repositoryManager.WorkOrderRepository.Update(workOrder);
+		await _repositoryManager.SaveAsync();
+	}
 
-    private static WorkOrderDto ToDto(WorkOrder w, Product? product, Machine? machine)
-    {
-        var dto = new WorkOrderDto
-        {
-            Id = w.Id,
-            ProductId = w.ProductId,
-            MachineId = w.MachineId,
-            Quantity = w.Quantity,
-            StartDate = w.StartDate,
-            EndDate = w.EndDate,
-            Status = w.Status,
-            ProductName = product?.Name,
-            MachineName = machine?.Name
-        };
-        return dto;
-    }
-
-    private static WorkOrder FromDto(WorkOrderDto dto) => new()
-    {
-        Id = dto.Id,
-        ProductId = dto.ProductId,
-        MachineId = dto.MachineId,
-        Quantity = dto.Quantity,
-        StartDate = dto.StartDate,
-        EndDate = dto.EndDate,
-        Status = dto.Status
-    };
+	public async Task DeleteAsync(DeleteWorkOrderRequest request)
+	{
+		WorkOrder? entity = await _repositoryManager.WorkOrderRepository.GetByIdAsync(request.Id);
+		if (entity != null)
+		{
+			_repositoryManager.WorkOrderRepository.Remove(entity);
+			await _repositoryManager.SaveAsync();
+		}
+	}
 }
