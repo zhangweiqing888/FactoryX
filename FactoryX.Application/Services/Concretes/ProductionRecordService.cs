@@ -40,11 +40,11 @@ public class ProductionRecordService : IProductionRecordService
 
 	public async Task<InsertProductionRecordResponse> CreateAsync(InsertProductionRecordRequest request)
 	{
-		var workOrder = _mapper.Map<ProductionRecord>(request);
-		_repositoryManager.ProductionRecordRepository.Create(workOrder);
+		var productionRecord = _mapper.Map<ProductionRecord>(request);
+		_repositoryManager.ProductionRecordRepository.Create(productionRecord);
 		await _repositoryManager.SaveAsync();
 
-		return _mapper.Map<InsertProductionRecordResponse>(workOrder);
+		return _mapper.Map<InsertProductionRecordResponse>(productionRecord);
 	}
 
 	public async Task UpdateAsync(UpdateProductionRecordRequest request)
