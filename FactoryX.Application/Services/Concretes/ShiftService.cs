@@ -1,78 +1,59 @@
-using FactoryX.Application.DTOs;
+using AutoMapper;
+using FactoryX.Application.DTOs.Requests.ShiftRequests;
+using FactoryX.Application.DTOs.Responses.Shift;
+using FactoryX.Application.DTOs.Responses.ShiftResponses;
 using FactoryX.Application.Services.Abstracts;
 using FactoryX.Domain.Entities;
-using FactoryX.Domain.Interfaces;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using FactoryX.Infrastructure.Contracts;
 
 namespace FactoryX.Application.Services.Concretes;
 
 public class ShiftService : IShiftService
 {
-    private readonly IRepository<Shift> _repository;
-    private readonly IUnitOfWork _unitOfWork;
+	private readonly IRepositoryManager _repositoryManager;
+	private readonly IMapper _mapper;
 
-    public ShiftService(IRepository<Shift> repository, IUnitOfWork unitOfWork)
-    {
-        _repository = repository;
-        _unitOfWork = unitOfWork;
-    }
+	public ShiftService(IRepositoryManager repositoryManager, IMapper mapper)
+	{
+		_repositoryManager = repositoryManager;
+		_mapper = mapper;
+	}
 
-    public async Task<IEnumerable<ShiftDto>> GetAllAsync()
-    {
-        var shifts = await _repository.GetAllAsync();
-        var list = new List<ShiftDto>();
-        foreach (var s in shifts)
-        {
-            list.Add(ToDto(s));
-        }
-        return list;
-    }
+	public async Task<IEnumerable<GetAllShiftResponse>> GetAllAsync()
+	{
+		var shifts = await _repositoryManager.ShiftRepository.GetAllAsync();
+		return _mapper.Map<IEnumerable<GetAllShiftResponse>>(shifts);
+	}
 
-    public async Task<ShiftDto?> GetByIdAsync(int id)
-    {
-        var shift = await _repository.GetByIdAsync(id);
-        return shift == null ? null : ToDto(shift);
-    }
+	public async Task<GetShiftResponse?> GetByIdAsync(int id)
+	{
+		var shift = await _repositoryManager.ShiftRepository.GetByIdAsync(id);
+		return shift == null ? null : _mapper.Map<GetShiftResponse>(shift);
+	}
 
-    public async Task<ShiftDto> CreateAsync(ShiftDto dto)
-    {
-        var entity = FromDto(dto);
-        await _repository.AddAsync(entity);
-        await _unitOfWork.SaveChangesAsync();
-        return ToDto(entity);
-    }
+	public async Task<InsertShiftResponse> CreateAsync(InsertShiftRequest request)
+	{
+		var shift = _mapper.Map<Shift>(request);
+		_repositoryManager.ShiftRepository.Create(shift);
+		await _repositoryManager.SaveAsync();
 
-    public async Task UpdateAsync(ShiftDto dto)
-    {
-        var entity = FromDto(dto);
-        _repository.Update(entity);
-        await _unitOfWork.SaveChangesAsync();
-    }
+		return _mapper.Map<InsertShiftResponse>(shift);
+	}
 
-    public async Task DeleteAsync(int id)
-    {
-        var entity = await _repository.GetByIdAsync(id);
-        if (entity != null)
-        {
-            _repository.Remove(entity);
-            await _unitOfWork.SaveChangesAsync();
-        }
-    }
+	public async Task UpdateAsync(UpdateShiftRequest request)
+	{
+		var shift = _mapper.Map<Shift>(request);
+		_repositoryManager.ShiftRepository.Update(shift);
+		await _repositoryManager.SaveAsync();
+	}
 
-    private static ShiftDto ToDto(Shift s) => new()
-    {
-        Id = s.Id,
-        Name = s.Name,
-        StartTime = s.StartTime,
-        EndTime = s.EndTime
-    };
-
-    private static Shift FromDto(ShiftDto dto) => new()
-    {
-        Id = dto.Id,
-        Name = dto.Name,
-        StartTime = dto.StartTime,
-        EndTime = dto.EndTime
-    };
+	public async Task DeleteAsync(DeleteShiftRequest request)
+	{
+		var entity = await _repositoryManager.ShiftRepository.GetByIdAsync(id: request.Id, trackChanges: true);
+		if (entity != null)
+		{
+			_repositoryManager.ShiftRepository.Remove(entity);
+			await _repositoryManager.SaveAsync();
+		}
+	}
 }

@@ -1,6 +1,7 @@
 ﻿namespace FactoryX.Application.DTOs.Requests.WorkOrderRequests;
 
 public sealed record UpdateWorkOrderRequest(
+	int Id,
 	int ProductId,
 	int MachineId,
 	int Quantity,
