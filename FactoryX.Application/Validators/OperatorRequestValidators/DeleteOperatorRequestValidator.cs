@@ -9,6 +9,6 @@ public class DeleteOperatorRequestValidator : AbstractValidator<DeleteOperatorRe
     {
         RuleFor(x => x.Id)
             .GreaterThan(0)
-            .WithMessage("Machine ID must be greater than 0.");
+            .WithMessage("Operator ID must be greater than 0.");
     }
 }

@@ -9,10 +9,10 @@ public class UpdateOperatorRequestValidator : AbstractValidator<UpdateOperatorRe
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .WithMessage("Machine name cannot be empty.");
+            .WithMessage("Operator name cannot be empty.");
 
         RuleFor(x => x.EmployeeNumber)
             .NotEmpty()
-            .WithMessage("Machine status cannot be empty.");
+            .WithMessage("Employee number cannot be empty.");
     }
 }
