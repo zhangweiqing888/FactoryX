@@ -2,27 +2,28 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using FactoryX.Application.DTOs;
 using FactoryX.Application.Services.Abstracts;
+using FactoryX.Application.DTOs.Requests.ProductRequests;
 
 namespace FactoryX.Web.Controllers;
 
 [Authorize]
 public class ProductsController : Controller
 {
-    private readonly IProductService _productService;
-    public ProductsController(IProductService productService)
+    private readonly IServiceManager _serviceManager;
+    public ProductsController(IServiceManager serviceManager)
     {
-        _productService = productService;
-    }
+        _serviceManager = serviceManager;
+	}
 
     public async Task<IActionResult> Index()
     {
-        var products = await _productService.GetAllAsync();
+        var products = await _serviceManager.ProductService.GetAllAsync();
         return View(products);
     }
 
     public async Task<IActionResult> Details(int id)
     {
-        var product = await _productService.GetByIdAsync(id);
+        var product = await _serviceManager.ProductService.GetByIdAsync(id);
         if (product == null) return NotFound();
         return View(product);
     }
@@ -34,44 +35,44 @@ public class ProductsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(ProductDto dto)
+    public async Task<IActionResult> Create(InsertProductRequest request)
     {
-        if (!ModelState.IsValid) return View(dto);
-        await _productService.CreateAsync(dto);
+        if (!ModelState.IsValid) return View(request);
+        await _serviceManager.ProductService.CreateAsync(request);
         TempData["Success"] = "Product created successfully.";
         return RedirectToAction(nameof(Index));
     }
 
     public async Task<IActionResult> Edit(int id)
     {
-        var product = await _productService.GetByIdAsync(id);
+        var product = await _serviceManager.ProductService.GetByIdAsync(id);
         if (product == null) return NotFound();
         return View(product);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, ProductDto dto)
+    public async Task<IActionResult> Edit(int id, UpdateProductRequest request)
     {
-        if (id != dto.Id) return BadRequest();
-        if (!ModelState.IsValid) return View(dto);
-        await _productService.UpdateAsync(dto);
+        if (id != request.Id) return BadRequest();
+        if (!ModelState.IsValid) return View(request);
+        await _serviceManager.ProductService.UpdateAsync(request);
         TempData["Success"] = "Product updated successfully.";
         return RedirectToAction(nameof(Index));
     }
 
     public async Task<IActionResult> Delete(int id)
     {
-        var product = await _productService.GetByIdAsync(id);
+        var product = await _serviceManager.ProductService.GetByIdAsync(id);
         if (product == null) return NotFound();
         return View(product);
     }
 
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(DeleteProductRequest request)
     {
-        await _productService.DeleteAsync(id);
+        await _serviceManager.ProductService.DeleteAsync(request);
         TempData["Success"] = "Product deleted successfully.";
         return RedirectToAction(nameof(Index));
     }

@@ -70,9 +70,9 @@ public class OperatorController : Controller
 
 	[HttpPost, ActionName("Delete")]
 	[ValidateAntiForgeryToken]
-	public async Task<IActionResult> DeleteConfirmed(int id)
+	public async Task<IActionResult> DeleteConfirmed(DeleteOperatorRequest request)
 	{
-		await _serviceManager.OperatorService.DeleteAsync(id);
+		await _serviceManager.OperatorService.DeleteAsync(request);
 		TempData["Success"] = "Operatör başarıyla silindi.";
 		return RedirectToAction(nameof(Index));
 	}

@@ -1,4 +1,4 @@
-using FactoryX.Application.DTOs;
+using FactoryX.Application.DTOs.Requests.WorkOrderRequests;
 using FactoryX.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,94 +9,90 @@ namespace FactoryX.Web.Controllers;
 [Authorize]
 public class WorkOrderController : Controller
 {
-    private readonly IWorkOrderService _workOrderService;
-    private readonly IProductService _productService;
-    private readonly IMachineService _machineService;
+	private readonly IServiceManager _serviceManager;
 
-    public WorkOrderController(IWorkOrderService workOrderService, IProductService productService, IMachineService machineService)
-    {
-        _workOrderService = workOrderService;
-        _productService = productService;
-        _machineService = machineService;
-    }
+	public WorkOrderController(IServiceManager serviceManager)
+	{
+		_serviceManager = serviceManager;
+	}
 
-    public async Task<IActionResult> Index()
-    {
-        var workOrders = await _workOrderService.GetAllAsync();
-        return View(workOrders);
-    }
+	public async Task<IActionResult> Index()
+	{
+		var workOrders = await _serviceManager.WorkOrderService.GetAllAsync();
+		return View(workOrders);
+	}
 
-    public async Task<IActionResult> Details(int id)
-    {
-        var wo = await _workOrderService.GetByIdAsync(id);
-        if (wo == null) return NotFound();
-        return View(wo);
-    }
+	public async Task<IActionResult> Details(int id)
+	{
+		var wo = await _serviceManager.WorkOrderService.GetByIdAsync(id);
+		if (wo == null) return NotFound();
+		return View(wo);
+	}
 
-    public async Task<IActionResult> Create()
-    {
-        await PopulateDropdowns();
-        return View();
-    }
+	public async Task<IActionResult> Create()
+	{
+		await PopulateDropdowns();
+		return View();
+	}
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(WorkOrderDto dto)
-    {
-        if (!ModelState.IsValid)
-        {
-            await PopulateDropdowns();
-            return View(dto);
-        }
-        await _workOrderService.CreateAsync(dto);
-        TempData["Success"] = "İş emri başarıyla eklendi.";
-        return RedirectToAction(nameof(Index));
-    }
+	[HttpPost]
+	[ValidateAntiForgeryToken]
+	public async Task<IActionResult> Create(InsertWorkOrderRequest request)
+	{
+		if (!ModelState.IsValid)
+		{
+			await PopulateDropdowns();
+			return View(request);
+		}
+		await _serviceManager.WorkOrderService.CreateAsync(request);
+		TempData["Success"] = "İş emri başarıyla eklendi.";
+		return RedirectToAction(nameof(Index));
+	}
 
-    public async Task<IActionResult> Edit(int id)
-    {
-        var wo = await _workOrderService.GetByIdAsync(id);
-        if (wo == null) return NotFound();
-        await PopulateDropdowns();
-        return View(wo);
-    }
+	public async Task<IActionResult> Edit(int id)
+	{
+		var wo = await _serviceManager.WorkOrderService.GetByIdAsync(id);
+		if (wo == null) return NotFound();
+		await PopulateDropdowns();
+		return View(wo);
+	}
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, WorkOrderDto dto)
-    {
-        if (id != dto.Id) return BadRequest();
-        if (!ModelState.IsValid)
-        {
-            await PopulateDropdowns();
-            return View(dto);
-        }
-        await _workOrderService.UpdateAsync(dto);
-        TempData["Success"] = "İş emri başarıyla güncellendi.";
-        return RedirectToAction(nameof(Index));
-    }
+	[HttpPost]
+	[ValidateAntiForgeryToken]
+	public async Task<IActionResult> Edit(int id, UpdateWorkOrderRequest request)
+	{
+		if (id != request.Id) return BadRequest();
+		if (!ModelState.IsValid)
+		{
+			await PopulateDropdowns();
+			return View(request);
+		}
+		await _serviceManager.WorkOrderService.UpdateAsync(request);
+		TempData["Success"] = "İş emri başarıyla güncellendi.";
+		return RedirectToAction(nameof(Index));
+	}
 
-    public async Task<IActionResult> Delete(int id)
-    {
-        var wo = await _workOrderService.GetByIdAsync(id);
-        if (wo == null) return NotFound();
-        return View(wo);
-    }
+	public async Task<IActionResult> Delete(int id)
+	{
+		var wo = await _serviceManager.WorkOrderService.GetByIdAsync(id);
+		if (wo == null) return NotFound();
+		return View(wo);
+	}
 
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
-    {
-        await _workOrderService.DeleteAsync(id);
-        TempData["Success"] = "İş emri başarıyla silindi.";
-        return RedirectToAction(nameof(Index));
-    }
+	[HttpPost, ActionName("Delete")]
+	[ValidateAntiForgeryToken]
+	public async Task<IActionResult> DeleteConfirmed(DeleteWorkOrderRequest request)
+	{
+		await _serviceManager.WorkOrderService.DeleteAsync(request);
+		TempData["Success"] = "İş emri başarıyla silindi.";
+		return RedirectToAction(nameof(Index));
+	}
 
-    private async Task PopulateDropdowns()
-    {
-        var products = await _productService.GetAllAsync();
-        var machines = await _machineService.GetAllAsync();
-        ViewBag.Products = new SelectList(products, "Id", "Name");
-        ViewBag.Machines = new SelectList(machines, "Id", "Name");
-    }
+	private async Task PopulateDropdowns()
+	{
+		var products = await _serviceManager.ProductService.GetAllAsync();
+		var machines = await _serviceManager.MachineService.GetAllAsync();
+		ViewBag.Products = new SelectList(products, "Id", "Name");
+		ViewBag.Machines = new SelectList(machines, "Id", "Name");
+	}
 }

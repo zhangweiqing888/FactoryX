@@ -1,4 +1,5 @@
 using FactoryX.Application.DTOs;
+using FactoryX.Application.DTOs.Responses.WorkOrderResponses;
 using System.Collections.Generic;
 
 namespace FactoryX.Web.Models;
@@ -11,6 +12,6 @@ public class DashboardViewModel
     public int WorkOrderCount { get; set; }
     public int ProductionRecordCount { get; set; }
     public int ShiftCount { get; set; }
-    public List<WorkOrderDto> RecentWorkOrders { get; set; } = new();
+    public List<GetAllWorkOrderResponse> RecentWorkOrders { get; set; } = new();
     public List<ProductionRecordDto> RecentProductionRecords { get; set; } = new();
 }

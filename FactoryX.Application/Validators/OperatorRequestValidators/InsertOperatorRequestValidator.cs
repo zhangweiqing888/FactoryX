@@ -10,7 +10,7 @@ public class InsertOperatorRequestValidator : AbstractValidator<InsertOperatorRe
     {
         RuleFor(x => x.Name)
             .NotEmpty()
-            .WithMessage("Machine name cannot be empty.");
+            .WithMessage("Operator name cannot be empty.");
 
         RuleFor(x => x.EmployeeNumber)
             .NotEmpty()
