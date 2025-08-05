@@ -16,6 +16,7 @@ using FactoryX.Application.DTOs.Responses.Shift;
 using FactoryX.Application.DTOs.Responses.ShiftResponses;
 using FactoryX.Application.DTOs.Responses.UserManagementResponses;
 using FactoryX.Application.DTOs.Responses.WorkOrder;
+using FactoryX.Application.DTOs.Responses.WorkOrderResponses;
 using FactoryX.Domain.Entities;
 
 namespace FactoryX.Application.Mappings;
@@ -42,18 +43,21 @@ public class MappingProfile : Profile
         CreateMap<Machine, InsertMachineRequest>().ReverseMap();
         CreateMap<Machine, UpdateMachineRequest>().ReverseMap();
         CreateMap<UpdateMachineRequest, GetMachineResponse>().ReverseMap();
-        #endregion
+        CreateMap<DeleteMachineRequest, GetMachineResponse>().ReverseMap();
+		#endregion
 
-        #region Operator Mapping
-        CreateMap<Operator, GetAllOperatorResponse>().ReverseMap();
+		#region Operator Mapping
+		CreateMap<Operator, GetAllOperatorResponse>().ReverseMap();
         CreateMap<Operator, GetOperatorResponse?>().ReverseMap();
         CreateMap<Operator, InsertOperatorRequest>().ReverseMap();
         CreateMap<Operator, InsertOperatorResponse>().ReverseMap();
         CreateMap<Operator, UpdateOperatorRequest>().ReverseMap();
-        #endregion
+        CreateMap<UpdateOperatorRequest, GetOperatorResponse>().ReverseMap();
+        CreateMap<DeleteOperatorRequest, GetOperatorResponse>().ReverseMap();
+		#endregion
 
-        #region ProductionRecord Mapping
-        CreateMap<ProductionRecord, InsertProductionRecordRequest>().ReverseMap();
+		#region ProductionRecord Mapping
+		CreateMap<ProductionRecord, InsertProductionRecordRequest>().ReverseMap();
         CreateMap<ProductionRecord, InsertProductionRecordResponse>().ReverseMap();
         CreateMap<ProductionRecord, UpdateProductionRecordRequest>().ReverseMap();
         #endregion
@@ -64,24 +68,31 @@ public class MappingProfile : Profile
         CreateMap<Product, InsertProductRequest>().ReverseMap();
         CreateMap<Product, InsertProductResponse>().ReverseMap();
         CreateMap<Product, UpdateProductRequest>().ReverseMap();
+		CreateMap<UpdateProductRequest, GetProductResponse>().ReverseMap();
+		CreateMap<DeleteProductRequest, GetProductResponse>().ReverseMap();
+
 		#endregion
 
 		#region Shift Mapping
-        CreateMap<Shift, GetAllShiftResponse>().ReverseMap();
+		CreateMap<Shift, GetAllShiftResponse>().ReverseMap();
         CreateMap<Shift, GetShiftResponse>().ReverseMap();
         CreateMap<Shift, InsertShiftRequest>().ReverseMap();
 		CreateMap<Shift, InsertShiftResponse>().ReverseMap();
 		CreateMap<Shift, UpdateShiftRequest>().ReverseMap();
-        #endregion
+		CreateMap<UpdateShiftRequest, GetShiftResponse>().ReverseMap();
+		CreateMap<DeleteShiftRequest, GetShiftResponse>().ReverseMap();
+		#endregion
 
-        #region User Mapping
-        CreateMap<GetUserProfileResponse, UserProfileDto>().ReverseMap();
+		#region User Mapping
+		CreateMap<GetUserProfileResponse, UserProfileDto>().ReverseMap();
 		#endregion
 
 		#region WorkOrder Mapping
 		CreateMap<WorkOrder, InsertWorkOrderRequest>().ReverseMap();
 		CreateMap<WorkOrder, InsertWorkOrderResponse>().ReverseMap();
         CreateMap<WorkOrder, UpdateWorkOrderRequest>().ReverseMap();
+		CreateMap<UpdateWorkOrderRequest, GetWorkOrderResponse>().ReverseMap();
+		CreateMap<DeleteWorkOrderRequest, GetWorkOrderResponse>().ReverseMap();
 		#endregion
 	}
 }

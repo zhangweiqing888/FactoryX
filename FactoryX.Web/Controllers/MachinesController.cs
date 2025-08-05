@@ -1,3 +1,4 @@
+using AutoMapper;
 using FactoryX.Application.DTOs.Requests.MachineRequests;
 using FactoryX.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Authorization;
@@ -9,9 +10,11 @@ namespace FactoryX.Web.Controllers;
 public class MachinesController : Controller
 {
 	private readonly IServiceManager _serviceManager;
-	public MachinesController(IServiceManager serviceManager)
+	private readonly IMapper _mapper;
+	public MachinesController(IServiceManager serviceManager, IMapper mapper)
 	{
 		_serviceManager = serviceManager;
+		_mapper = mapper;
 	}
 
 	public async Task<IActionResult> Index()
@@ -46,7 +49,8 @@ public class MachinesController : Controller
 	{
 		var machine = await _serviceManager.MachineService.GetByIdAsync(id);
 		if (machine == null) return NotFound();
-		return View(machine);
+		var updateRequest = _mapper.Map<UpdateMachineRequest>(machine);
+		return View(updateRequest);
 	}
 
 	[HttpPost]
