@@ -40,6 +40,7 @@ public class MappingProfile : Profile
         CreateMap<Machine, InsertMachineResponse>().ReverseMap();
         CreateMap<Machine, InsertMachineRequest>().ReverseMap();
         CreateMap<Machine, UpdateMachineRequest>().ReverseMap();
+        CreateMap<UpdateMachineRequest, GetMachineResponse>().ReverseMap();
         #endregion
 
         #region Operator Mapping
