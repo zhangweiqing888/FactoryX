@@ -87,6 +87,8 @@ public class UserService : IUserService
 		if (user == null) throw new InvalidOperationException("Kullanıcı bulunamadı.");
 		user.Username = dto.UserName;
 		user.FullName = dto.FullName;
+		user.Email = dto.Email;
+		user.UpdatedAt = DateTime.UtcNow;
 		_repositoryManager.UserRepository.Update(user);
 		await _repositoryManager.SaveAsync();
 	}

@@ -14,6 +14,7 @@ using FactoryX.Application.DTOs.Responses.ProductionRecord;
 using FactoryX.Application.DTOs.Responses.ProductResponses;
 using FactoryX.Application.DTOs.Responses.Shift;
 using FactoryX.Application.DTOs.Responses.ShiftResponses;
+using FactoryX.Application.DTOs.Responses.UserManagementResponses;
 using FactoryX.Application.DTOs.Responses.WorkOrder;
 using FactoryX.Domain.Entities;
 
@@ -71,10 +72,10 @@ public class MappingProfile : Profile
         CreateMap<Shift, InsertShiftRequest>().ReverseMap();
 		CreateMap<Shift, InsertShiftResponse>().ReverseMap();
 		CreateMap<Shift, UpdateShiftRequest>().ReverseMap();
-		#endregion
+        #endregion
 
-		#region User Mapping
-
+        #region User Mapping
+        CreateMap<GetUserProfileResponse, UserProfileDto>().ReverseMap();
 		#endregion
 
 		#region WorkOrder Mapping
