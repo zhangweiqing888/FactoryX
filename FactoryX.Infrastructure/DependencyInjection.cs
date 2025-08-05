@@ -21,7 +21,11 @@ public static class DependencyInjection
 		services.AddScoped<IShiftRepository, ShiftRepository>();
 		services.AddScoped<IWorkOrderRepository, WorkOrderRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IDowntimeRepository, DowntimeRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IProductionRecordRepository, ProductionRecordRepository>();
+		services.AddScoped<IDowntimeRepository, DowntimeRepository>();
+        services.AddScoped<IMaterialRepository, MaterialRepository>();
+        services.AddScoped<IMaterialUsageRepository, MaterialUsageRepository>();
 		services.AddScoped<IRepositoryManager, RepositoryManager>();
         //services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         

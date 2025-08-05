@@ -9,15 +9,19 @@ using FactoryX.Application.Services.Abstracts;
 using FactoryX.Application.DTOs.Requests.UserManagementRequests;
 using FactoryX.Application.DTOs.Requests.AuthenticationRequests;
 using FactoryX.Application.DTOs.Responses.AuthenticationResponses;
+using FactoryX.Application.DTOs.Responses.UserManagementResponses;
+using AutoMapper;
 
 namespace FactoryX.Web.Controllers;
 
 public class AccountController : Controller
 {
     private readonly IServiceManager _serviceManager;
-    public AccountController(IServiceManager serviceManager)
+    private readonly IMapper _mapper;
+    public AccountController(IServiceManager serviceManager, IMapper mapper)
     {
         _serviceManager = serviceManager;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -104,10 +108,11 @@ public class AccountController : Controller
     [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Profile(UserProfileDto dto)
+    public async Task<IActionResult> Profile(GetUserProfileResponse request)
     {
-        if (!ModelState.IsValid) return View(dto);
-        await _serviceManager.UserService.UpdateProfileAsync(dto);
+		if (!ModelState.IsValid) return View(request);
+		var userProfileDto = _mapper.Map<UserProfileDto>(request);
+        await _serviceManager.UserService.UpdateProfileAsync(userProfileDto);
         TempData["Success"] = "Profil başarıyla güncellendi.";
         return RedirectToAction("Profile");
     }

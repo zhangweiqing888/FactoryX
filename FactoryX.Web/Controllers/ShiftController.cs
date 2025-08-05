@@ -1,4 +1,6 @@
+using AutoMapper;
 using FactoryX.Application.DTOs.Requests.ShiftRequests;
+using FactoryX.Application.DTOs.Responses.ShiftResponses;
 using FactoryX.Application.Services.Abstracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,10 +11,12 @@ namespace FactoryX.Web.Controllers;
 public class ShiftController : Controller
 {
 	private readonly IServiceManager _serviceManager;
+	private readonly IMapper _mapper;
 
-	public ShiftController(IServiceManager serviceManager)
+	public ShiftController(IServiceManager serviceManager, IMapper mapper)
 	{
 		_serviceManager = serviceManager;
+		_mapper = mapper;
 	}
 
 	public async Task<IActionResult> Index()
@@ -52,11 +56,12 @@ public class ShiftController : Controller
 
 	[HttpPost]
 	[ValidateAntiForgeryToken]
-	public async Task<IActionResult> Edit(int id, UpdateShiftRequest request)
+	public async Task<IActionResult> Edit(int id, GetShiftResponse request)
 	{
 		if (id != request.Id) return BadRequest();
 		if (!ModelState.IsValid) return View(request);
-		await _serviceManager.ShiftService.UpdateAsync(request);
+		var updateShiftRequest = _mapper.Map<UpdateShiftRequest>(request);
+		await _serviceManager.ShiftService.UpdateAsync(updateShiftRequest);
 		TempData["Success"] = "Vardiya başarıyla güncellendi.";
 		return RedirectToAction(nameof(Index));
 	}
@@ -70,9 +75,10 @@ public class ShiftController : Controller
 
 	[HttpPost, ActionName("Delete")]
 	[ValidateAntiForgeryToken]
-	public async Task<IActionResult> DeleteConfirmed(DeleteShiftRequest request)
+	public async Task<IActionResult> DeleteConfirmed(GetShiftResponse request)
 	{
-		await _serviceManager.ShiftService.DeleteAsync(request);
+		var deleteShiftRequest = _mapper.Map<DeleteShiftRequest>(request);
+		await _serviceManager.ShiftService.DeleteAsync(deleteShiftRequest);
 		TempData["Success"] = "Vardiya başarıyla silindi.";
 		return RedirectToAction(nameof(Index));
 	}
