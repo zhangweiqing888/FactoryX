@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Dashboard" xml:space="preserve">
+    <value>仪表板</value>
+  </data>
+  <data name="Machines" xml:space="preserve">
+    <value>机器管理</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>产品管理</value>
+  </data>
+  <data name="Operators" xml:space="preserve">
+    <value>操作员管理</value>
+  </data>
+  <data name="WorkOrders" xml:space="preserve">
+    <value>工单管理</value>
+  </data>
+  <data name="ProductionRecords" xml:space="preserve">
+    <value>生产记录</value>
+  </data>
+  <data name="Shifts" xml:space="preserve">
+    <value>班次管理</value>
+  </data>
+  <data name="Downtimes" xml:space="preserve">
+    <value>停机时间</value>
+  </data>
+  <data name="Materials" xml:space="preserve">
+    <value>物料管理</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>提交</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>详情</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>返回列表</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>位置</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>操作</value>
+  </data>
+</root>

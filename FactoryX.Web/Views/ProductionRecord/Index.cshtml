@@ -1,18 +1,18 @@
 @model IEnumerable<FactoryX.Application.DTOs.ProductionRecordDto>
 @{
-    ViewData["Title"] = "Üretim Kayıtları";
+    ViewData["Title"] = "生产记录";
 }
 
 <partial name="_Alert" />
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">Üretim Kayıtları</h2>
-    <a asp-action="Create" class="btn btn-primary rounded-pill shadow">+ Yeni Kayıt</a>
+    <h2 class="fw-bold">生产记录</h2>
+    <a asp-action="Create" class="btn btn-primary rounded-pill shadow">+ 新增记录</a>
 </div>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">Henüz üretim kaydı eklenmemiş.</div>
+    <div class="alert alert-info">暂无生产记录数据。</div>
 }
 else
 {
@@ -23,15 +23,15 @@ else
                 <div class="card glass-card h-100 shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">@rec.Id</h5>
-                        <p class="card-text mb-1"><strong>İş Emri:</strong> @rec.WorkOrderName</p>
-                        <p class="card-text mb-1"><strong>Operatör:</strong> @rec.OperatorName</p>
-                        <p class="card-text mb-1"><strong>Miktar:</strong> @rec.QuantityProduced</p>
-                        <p class="card-text mb-1"><strong>Tarih:</strong> @rec.Timestamp.ToString("g")</p>
+                        <p class="card-text mb-1"><strong>工单:</strong> @rec.WorkOrderName</p>
+                        <p class="card-text mb-1"><strong>操作员:</strong> @rec.OperatorName</p>
+                        <p class="card-text mb-1"><strong>数量:</strong> @rec.QuantityProduced</p>
+                        <p class="card-text mb-1"><strong>日期:</strong> @rec.Timestamp.ToString("g")</p>
                     </div>
                     <div class="card-footer bg-transparent border-0 d-flex justify-content-end gap-2">
-                        <a asp-action="Details" asp-route-id="@rec.Id" class="btn btn-outline-secondary btn-sm">Detay</a>
-                        <a asp-action="Edit" asp-route-id="@rec.Id" class="btn btn-outline-primary btn-sm">Düzenle</a>
-                        <a asp-action="Delete" asp-route-id="@rec.Id" class="btn btn-outline-danger btn-sm">Sil</a>
+                        <a asp-action="Details" asp-route-id="@rec.Id" class="btn btn-outline-secondary btn-sm">详情</a>
+                        <a asp-action="Edit" asp-route-id="@rec.Id" class="btn btn-outline-primary btn-sm">编辑</a>
+                        <a asp-action="Delete" asp-route-id="@rec.Id" class="btn btn-outline-danger btn-sm">删除</a>
                     </div>
                 </div>
             </div>

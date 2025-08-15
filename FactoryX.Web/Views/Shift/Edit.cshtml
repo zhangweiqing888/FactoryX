@@ -1,31 +1,31 @@
 @model FactoryX.Application.DTOs.Responses.ShiftResponses.GetShiftResponse
 @{
-    ViewData["Title"] = "Vardiya Düzenle";
+    ViewData["Title"] = "编辑班次";
 }
 
 <partial name="_Alert" />
 
-<h2 class="fw-bold mb-4">Vardiya Düzenle</h2>
+<h2 class="fw-bold mb-4">编辑班次</h2>
 
 <form asp-action="Edit" method="post" class="glass-card p-4 shadow-sm" autocomplete="off">
     <input type="hidden" asp-for="Id" />
     <div class="mb-3">
-        <label asp-for="Name" class="form-label">Vardiya Adı</label>
+        <label asp-for="Name" class="form-label">班次名称</label>
         <input asp-for="Name" class="form-control" />
         <span asp-validation-for="Name" class="text-danger small"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="StartTime" class="form-label">Başlangıç Saati</label>
+        <label asp-for="StartTime" class="form-label">开始时间</label>
         <input asp-for="StartTime" type="time" class="form-control" />
         <span asp-validation-for="StartTime" class="text-danger small"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="EndTime" class="form-label">Bitiş Saati</label>
+        <label asp-for="EndTime" class="form-label">结束时间</label>
         <input asp-for="EndTime" type="time" class="form-control" />
         <span asp-validation-for="EndTime" class="text-danger small"></span>
     </div>
-    <button type="submit" class="btn btn-primary rounded-pill px-4">Kaydet</button>
-    <a asp-action="Index" class="btn btn-outline-secondary ms-2">İptal</a>
+    <button type="submit" class="btn btn-primary rounded-pill px-4">保存</button>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">取消</a>
 </form>
 
 @section Scripts {

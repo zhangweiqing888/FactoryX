@@ -1,18 +1,18 @@
 @model IEnumerable<FactoryX.Application.DTOs.Responses.ShiftResponses.GetAllShiftResponse>
 @{
-    ViewData["Title"] = "Vardiyalar";
+    ViewData["Title"] = "班次管理";
 }
 
 <partial name="_Alert" />
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">Vardiyalar</h2>
-    <a asp-action="Create" class="btn btn-primary rounded-pill shadow">+ Yeni Vardiya</a>
+    <h2 class="fw-bold">班次管理</h2>
+    <a asp-action="Create" class="btn btn-primary rounded-pill shadow">+ 新增班次</a>
 </div>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">Henüz vardiya eklenmemiş.</div>
+    <div class="alert alert-info">暂无班次数据。</div>
 }
 else
 {
@@ -23,13 +23,13 @@ else
                 <div class="card glass-card h-100 shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">@shift.Name</h5>
-                        <p class="card-text mb-1"><strong>Başlangıç:</strong> @shift.StartTime</p>
-                        <p class="card-text mb-1"><strong>Bitiş:</strong> @shift.EndTime</p>
+                        <p class="card-text mb-1"><strong>开始时间:</strong> @shift.StartTime</p>
+                        <p class="card-text mb-1"><strong>结束时间:</strong> @shift.EndTime</p>
                     </div>
                     <div class="card-footer bg-transparent border-0 d-flex justify-content-end gap-2">
-                        <a asp-action="Details" asp-route-id="@shift.Id" class="btn btn-outline-secondary btn-sm">Detay</a>
-                        <a asp-action="Edit" asp-route-id="@shift.Id" class="btn btn-outline-primary btn-sm">Düzenle</a>
-                        <a asp-action="Delete" asp-route-id="@shift.Id" class="btn btn-outline-danger btn-sm">Sil</a>
+                        <a asp-action="Details" asp-route-id="@shift.Id" class="btn btn-outline-secondary btn-sm">详情</a>
+                        <a asp-action="Edit" asp-route-id="@shift.Id" class="btn btn-outline-primary btn-sm">编辑</a>
+                        <a asp-action="Delete" asp-route-id="@shift.Id" class="btn btn-outline-danger btn-sm">删除</a>
                     </div>
                 </div>
             </div>

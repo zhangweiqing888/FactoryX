@@ -6,39 +6,39 @@
 }
 
 <aside class="sidebar d-flex flex-column align-items-center py-3 px-2 w-auto min-vh-100">
-    <!-- �stteki nav ikonlar� -->
+    <!-- 上方的导航图标 -->
     <nav class="nav flex-column gap-3 flex-grow-1">
         <a asp-controller="Home" asp-action="Dashboard"
-            class="nav-link sidebar-link  p-2 @(currentController == "Home" ? "active" : "")" title="Dashboard">
+            class="nav-link sidebar-link  p-2 @(currentController == "Home" ? "active" : "")" title="仪表板">
             <i class="bi bi-speedometer2 fs-4"></i>
         </a>
         <a asp-controller="Machines" asp-action="Index"
-            class="nav-link sidebar-link p-2 @(currentController == "Machines" ? "active" : "")" title="Makineler">
+            class="nav-link sidebar-link p-2 @(currentController == "Machines" ? "active" : "")" title="机器管理">
             <i class="bi bi-cpu fs-4"></i>
         </a>
         <a asp-controller="Products" asp-action="Index"
-            class="nav-link sidebar-link p-2 @(currentController == "Products" ? "active" : "")" title="�r�nler">
+            class="nav-link sidebar-link p-2 @(currentController == "Products" ? "active" : "")" title="产品管理">
             <i class="bi bi-box-seam fs-4"></i>
         </a>
         <a asp-controller="Operator" asp-action="Index"
-            class="nav-link sidebar-link p-2 @(currentController == "Operator" ? "active" : "")" title="Operat�r">
+            class="nav-link sidebar-link p-2 @(currentController == "Operator" ? "active" : "")" title="操作员管理">
             <i class="bi bi-person-badge fs-4"></i>
         </a>
         <a asp-controller="WorkOrder" asp-action="Index"
-            class="nav-link sidebar-link p-2 @(currentController == "WorkOrder" ? "active" : "")" title="�� Emri">
+            class="nav-link sidebar-link p-2 @(currentController == "WorkOrder" ? "active" : "")" title="工单管理">
             <i class="bi bi-list-task fs-4"></i>
         </a>
         <a asp-controller="ProductionRecord" asp-action="Index"
-            class="nav-link sidebar-link p-2 @(currentController == "ProductionRecord" ? "active" : "")" title="�retim">
+            class="nav-link sidebar-link p-2 @(currentController == "ProductionRecord" ? "active" : "")" title="生产记录">
             <i class="bi bi-clipboard-data fs-4"></i>
         </a>
         <a asp-controller="Shift" asp-action="Index"
-            class="nav-link sidebar-link p-2 @(currentController == "Shift" ? "active" : "")" title="Vardiya">
+            class="nav-link sidebar-link p-2 @(currentController == "Shift" ? "active" : "")" title="班次管理">
             <i class="bi bi-clock-history fs-4"></i>
         </a>
     </nav>
 
-    <!-- Alt k�s�mdaki profil/giri� -->
+    <!-- 下方的个人资料/登录 -->
     <div class="">
         @if (isAuthenticated)
         {
@@ -48,7 +48,7 @@
         }
         else
         {
-            <a asp-controller="Account" asp-action="Login" class="nav-link sidebar-link p-2" title="Giri� Yap">
+            <a asp-controller="Account" asp-action="Login" class="nav-link sidebar-link p-2" title="登录">
                 <i class="bi bi-box-arrow-in-right fs-4"></i>
             </a>
         }

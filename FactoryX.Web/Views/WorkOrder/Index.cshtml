@@ -1,18 +1,18 @@
-@model IEnumerable<FactoryX.Application.DTOs.WorkOrderDto>
+@model IEnumerable<FactoryX.Application.DTOs.Responses.WorkOrderResponses.GetAllWorkOrderResponse>
 @{
-    ViewData["Title"] = "İş Emirleri";
+    ViewData["Title"] = "工单管理";
 }
 
 <partial name="_Alert" />
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="fw-bold">İş Emirleri</h2>
-    <a asp-action="Create" class="btn btn-primary rounded-pill shadow">+ Yeni İş Emri</a>
+    <h2 class="fw-bold">工单管理</h2>
+    <a asp-action="Create" class="btn btn-primary rounded-pill shadow">+ 新增工单</a>
 </div>
 
 @if (!Model.Any())
 {
-    <div class="alert alert-info">Henüz iş emri eklenmemiş.</div>
+    <div class="alert alert-info">暂无工单数据。</div>
 }
 else
 {
@@ -23,16 +23,16 @@ else
                 <div class="card glass-card h-100 shadow-sm">
                     <div class="card-body">
                         <h5 class="card-title">@wo.Id - @wo.Status</h5>
-                        <p class="card-text mb-1"><strong>Ürün:</strong> @wo.ProductName</p>
-                        <p class="card-text mb-1"><strong>Makine:</strong> @wo.MachineName</p>
-                        <p class="card-text mb-1"><strong>Miktar:</strong> @wo.Quantity</p>
-                        <p class="card-text mb-1"><strong>Başlangıç:</strong> @wo.StartDate.ToShortDateString()</p>
-                        <p class="card-text mb-1"><strong>Bitiş:</strong> @wo.EndDate.ToShortDateString()</p>
+                        <p class="card-text mb-1"><strong>产品:</strong> @wo.ProductName</p>
+                        <p class="card-text mb-1"><strong>机器:</strong> @wo.MachineName</p>
+                        <p class="card-text mb-1"><strong>数量:</strong> @wo.Quantity</p>
+                        <p class="card-text mb-1"><strong>开始日期:</strong> @wo.StartDate.ToShortDateString()</p>
+                        <p class="card-text mb-1"><strong>结束日期:</strong> @wo.EndDate.ToShortDateString()</p>
                     </div>
                     <div class="card-footer bg-transparent border-0 d-flex justify-content-end gap-2">
-                        <a asp-action="Details" asp-route-id="@wo.Id" class="btn btn-outline-secondary btn-sm">Detay</a>
-                        <a asp-action="Edit" asp-route-id="@wo.Id" class="btn btn-outline-primary btn-sm">Düzenle</a>
-                        <a asp-action="Delete" asp-route-id="@wo.Id" class="btn btn-outline-danger btn-sm">Sil</a>
+                        <a asp-action="Details" asp-route-id="@wo.Id" class="btn btn-outline-secondary btn-sm">详情</a>
+                        <a asp-action="Edit" asp-route-id="@wo.Id" class="btn btn-outline-primary btn-sm">编辑</a>
+                        <a asp-action="Delete" asp-route-id="@wo.Id" class="btn btn-outline-danger btn-sm">删除</a>
                     </div>
                 </div>
             </div>

@@ -10,12 +10,12 @@ public class HomeController : Controller
 {
     private readonly IServiceManager _serviceManager;
 
-	public HomeController(IServiceManager serviceManager)
-	{
-		_serviceManager = serviceManager;
-	}
+    public HomeController(IServiceManager serviceManager)
+    {
+        _serviceManager = serviceManager;
+    }
 
-	public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index()
     {
         var model = new DashboardViewModel
         {
@@ -32,6 +32,33 @@ public class HomeController : Controller
     }
 
     public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    /// <summary>
+    /// 简单测试页面
+    /// </summary>
+    /// <returns>测试页面</returns>
+    public IActionResult Test()
+    {
+        return View();
+    }
+
+    /// <summary>
+    /// 更简单的测试页面
+    /// </summary>
+    /// <returns>简单测试页面</returns>
+    public IActionResult SimpleTest()
+    {
+        return View();
+    }
+
+    /// <summary>
+    /// 测试本地化功能
+    /// </summary>
+    /// <returns>本地化测试页面</returns>
+    public IActionResult TestLocalization()
     {
         return View();
     }

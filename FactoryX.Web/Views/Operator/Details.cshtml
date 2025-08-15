@@ -1,20 +1,20 @@
 @model FactoryX.Application.DTOs.Responses.OperatorResponses.GetOperatorResponse
 @{
-    ViewData["Title"] = "Operatör Detay";
+    ViewData["Title"] = "操作员详情";
 }
 
-<h2 class="fw-bold mb-4">Operatör Detay</h2>
+<h2 class="fw-bold mb-4">操作员详情</h2>
 
 <div class="glass-card p-4 shadow-sm mx-auto" style="max-width: 400px;">
     <dl class="row mb-0">
-        <dt class="col-5">Ad Soyad</dt>
+        <dt class="col-5">姓名</dt>
         <dd class="col-7">@Model.Name</dd>
-        <dt class="col-5">Çalışan No</dt>
+        <dt class="col-5">员工编号</dt>
         <dd class="col-7">@Model.EmployeeNumber</dd>
     </dl>
     <div class="mt-4 d-flex justify-content-end">
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">Düzenle</a>
-        <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">编辑</a>
+        <a asp-action="Index" class="btn btn-secondary">返回</a>
     </div>
 </div>
 

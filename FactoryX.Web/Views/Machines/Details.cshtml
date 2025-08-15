@@ -1,6 +1,6 @@
 @model FactoryX.Application.DTOs.Responses.MachineResponses.GetMachineResponse
 @{
-    ViewData["Title"] = "Machine Details";
+    ViewData["Title"] = "机器详情";
 }
 <div class="container py-4">
     @await Html.PartialAsync("_Alert")
@@ -8,23 +8,23 @@
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-body p-4">
-                    <h2 class="fw-bold mb-4 text-center"><i class="bi bi-cpu-fill text-primary me-2"></i>Machine Details
+                    <h2 class="fw-bold mb-4 text-center"><i class="bi bi-cpu-fill text-primary me-2"></i>机器详情
                     </h2>
                     <dl class="row mb-4">
-                        <dt class="col-5">Name</dt>
+                        <dt class="col-5">机器名称</dt>
                         <dd class="col-7">@Model.Name</dd>
-                        <dt class="col-5">Status</dt>
+                        <dt class="col-5">状态</dt>
                         <dd class="col-7"><span
                                 class="badge bg-@(Model.Status == "Active" ? "success" : "secondary")">@Model.Status</span>
                         </dd>
-                        <dt class="col-5">Capacity</dt>
+                        <dt class="col-5">产能</dt>
                         <dd class="col-7">@Model.Capacity</dd>
                     </dl>
                     <div class="d-flex justify-content-between">
                         <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i>
-                            Back</a>
+                            返回</a>
                         <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i
-                                class="bi bi-pencil"></i> Edit</a>
+                                class="bi bi-pencil"></i> 编辑</a>
                     </div>
                 </div>
             </div>

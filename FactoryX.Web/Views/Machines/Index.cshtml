@@ -1,13 +1,12 @@
 @model IEnumerable<FactoryX.Application.DTOs.Responses.MachineResponses.GetAllMachinesResponse>
 @{
-    ViewData["Title"] = "Machines";
+    ViewData["Title"] = "机器管理";
 }
 <div class="container py-4">
     @await Html.PartialAsync("_Alert")
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="fw-bold mb-0"><i class="bi bi-cpu-fill text-primary me-2"></i>Machines</h2>
-        <a asp-action="Create" class="btn btn-success btn-lg shadow-sm"><i class="bi bi-plus-lg me-1"></i> Create
-            Machine</a>
+        <h2 class="fw-bold mb-0"><i class="bi bi-cpu-fill text-primary me-2"></i>机器管理</h2>
+        <a asp-action="Create" class="btn btn-success btn-lg shadow-sm"><i class="bi bi-plus-lg me-1"></i> 新增机器</a>
     </div>
     <div class="row g-4">
         @foreach (var machine in Model)
@@ -20,15 +19,15 @@
                             <span
                                 class="badge bg-@(machine.Status == "Active" ? "success" : "secondary")">@machine.Status</span>
                         </div>
-                        <div class="mb-3 text-muted small">Capacity: <span class="fw-semibold">@machine.Capacity</span>
+                        <div class="mb-3 text-muted small">产能: <span class="fw-semibold">@machine.Capacity</span>
                         </div>
                         <div class="d-flex gap-2">
                             <a asp-action="Details" asp-route-id="@machine.Id" class="btn btn-outline-primary btn-sm"><i
-                                    class="bi bi-eye"></i> Details</a>
+                                    class="bi bi-eye"></i> 详情</a>
                             <a asp-action="Edit" asp-route-id="@machine.Id" class="btn btn-outline-warning btn-sm"><i
-                                    class="bi bi-pencil"></i> Edit</a>
+                                    class="bi bi-pencil"></i> 编辑</a>
                             <a asp-action="Delete" asp-route-id="@machine.Id" class="btn btn-outline-danger btn-sm"><i
-                                    class="bi bi-trash"></i> Delete</a>
+                                    class="bi bi-trash"></i> 删除</a>
                         </div>
                     </div>
                 </div>
@@ -38,7 +37,7 @@
     @if (!Model.Any())
     {
         <div class="alert alert-info mt-4 text-center">
-            <i class="bi bi-info-circle"></i> No machines found. Click <b>Create Machine</b> to add your first machine.
+            <i class="bi bi-info-circle"></i> 暂无机器数据。点击 <b>新增机器</b> 添加您的第一台机器。
         </div>
     }
 </div>

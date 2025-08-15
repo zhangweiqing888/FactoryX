@@ -1,41 +1,41 @@
 @model FactoryX.Application.DTOs.ProductionRecordDto
 @{
-    ViewData["Title"] = "Üretim Kaydı Düzenle";
+    ViewData["Title"] = "编辑生产记录";
     // WorkOrder ve Operator listeleri ileride ViewBag ile gelecek
 }
 
 <partial name="_Alert" />
 
-<h2 class="fw-bold mb-4">Üretim Kaydı Düzenle</h2>
+<h2 class="fw-bold mb-4">编辑生产记录</h2>
 
 <form asp-action="Edit" method="post" class="glass-card p-4 shadow-sm" autocomplete="off">
     <input type="hidden" asp-for="Id" />
     <div class="mb-3">
-        <label asp-for="WorkOrderId" class="form-label">İş Emri</label>
+        <label asp-for="WorkOrderId" class="form-label">工单</label>
         <select asp-for="WorkOrderId" class="form-select" asp-items="ViewBag.WorkOrders">
-            <option value="">Seçiniz</option>
+            <option value="">请选择</option>
         </select>
         <span asp-validation-for="WorkOrderId" class="text-danger small"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="OperatorId" class="form-label">Operatör</label>
+        <label asp-for="OperatorId" class="form-label">操作员</label>
         <select asp-for="OperatorId" class="form-select" asp-items="ViewBag.Operators">
-            <option value="">Seçiniz</option>
+            <option value="">请选择</option>
         </select>
         <span asp-validation-for="OperatorId" class="text-danger small"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="QuantityProduced" class="form-label">Üretilen Miktar</label>
+        <label asp-for="QuantityProduced" class="form-label">生产数量</label>
         <input asp-for="QuantityProduced" class="form-control" />
         <span asp-validation-for="QuantityProduced" class="text-danger small"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="Timestamp" class="form-label">Tarih/Saat</label>
+        <label asp-for="Timestamp" class="form-label">日期/时间</label>
         <input asp-for="Timestamp" type="datetime-local" class="form-control" />
         <span asp-validation-for="Timestamp" class="text-danger small"></span>
     </div>
-    <button type="submit" class="btn btn-primary rounded-pill px-4">Kaydet</button>
-    <a asp-action="Index" class="btn btn-outline-secondary ms-2">İptal</a>
+    <button type="submit" class="btn btn-primary rounded-pill px-4">保存</button>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">取消</a>
 </form>
 
 @section Scripts {

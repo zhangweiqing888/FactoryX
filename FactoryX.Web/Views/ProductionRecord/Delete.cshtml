@@ -1,26 +1,26 @@
 @model FactoryX.Application.DTOs.ProductionRecordDto
 @{
-    ViewData["Title"] = "Üretim Kaydı Sil";
+    ViewData["Title"] = "删除生产记录";
 }
 
-<h2 class="fw-bold mb-4 text-danger">Üretim Kaydı Sil</h2>
+<h2 class="fw-bold mb-4 text-danger">删除生产记录</h2>
 
 <div class="glass-card p-4 shadow-sm mx-auto" style="max-width: 500px;">
-    <p class="mb-3">Aşağıdaki üretim kaydını silmek istediğinize emin misiniz?</p>
+    <p class="mb-3">您确定要删除以下生产记录吗？</p>
     <dl class="row mb-0">
-        <dt class="col-5">İş Emri</dt>
+        <dt class="col-5">工单</dt>
         <dd class="col-7">@Model.WorkOrderId <!-- WorkOrder info eklenecek --></dd>
-        <dt class="col-5">Operatör</dt>
+        <dt class="col-5">操作员</dt>
         <dd class="col-7">@Model.OperatorId <!-- Operator info eklenecek --></dd>
-        <dt class="col-5">Üretilen Miktar</dt>
+        <dt class="col-5">生产数量</dt>
         <dd class="col-7">@Model.QuantityProduced</dd>
-        <dt class="col-5">Tarih/Saat</dt>
+        <dt class="col-5">日期/时间</dt>
         <dd class="col-7">@Model.Timestamp.ToString("g")</dd>
     </dl>
     <form asp-action="Delete" method="post" class="mt-4 d-flex justify-content-end gap-2">
         <input type="hidden" asp-for="Id" />
-        <button type="submit" class="btn btn-danger">Sil</button>
-        <a asp-action="Index" class="btn btn-outline-secondary">İptal</a>
+        <button type="submit" class="btn btn-danger">删除</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">取消</a>
     </form>
 </div>
 

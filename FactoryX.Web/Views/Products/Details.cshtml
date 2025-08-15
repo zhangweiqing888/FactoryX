@@ -1,6 +1,6 @@
 @model FactoryX.Application.DTOs.Responses.ProductResponses.GetProductResponse
 @{
-    ViewData["Title"] = "Product Details";
+    ViewData["Title"] = "产品详情";
 }
 <div class="container py-4">
     @await Html.PartialAsync("_Alert")
@@ -8,18 +8,18 @@
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-body p-4">
-                    <h2 class="fw-bold mb-4 text-center"><i class="bi bi-box-seam text-success me-2"></i>Product Details</h2>
+                    <h2 class="fw-bold mb-4 text-center"><i class="bi bi-box-seam text-success me-2"></i>产品详情</h2>
                     <dl class="row mb-4">
-                        <dt class="col-5">Name</dt>
+                        <dt class="col-5">产品名称</dt>
                         <dd class="col-7">@Model.Name</dd>
-                        <dt class="col-5">Code</dt>
+                        <dt class="col-5">产品代码</dt>
                         <dd class="col-7">@Model.Code</dd>
-                        <dt class="col-5">Description</dt>
+                        <dt class="col-5">产品描述</dt>
                         <dd class="col-7">@Model.Description</dd>
                     </dl>
                     <div class="d-flex justify-content-between">
-                        <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back</a>
-                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="bi bi-pencil"></i> Edit</a>
+                        <a asp-action="Index" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> 返回</a>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning"><i class="bi bi-pencil"></i> 编辑</a>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,35 @@
+@{
+    var currentCulture = ViewBag.CurrentCulture as string ?? "zh-CN";
+    var returnUrl = ViewBag.ReturnUrl as string ?? "/";
+}
+
+<div class="language-switcher">
+    <form method="post" action="@Url.Action("SetLanguage", "Language")" style="display: inline;">
+        <input type="hidden" name="returnUrl" value="@returnUrl" />
+        
+        @if (currentCulture.StartsWith("zh"))
+        {
+            <button type="submit" name="culture" value="en-US" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-globe"></i> English
+            </button>
+        }
+        else
+        {
+            <button type="submit" name="culture" value="zh-CN" class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-globe"></i> 中文
+            </button>
+        }
+    </form>
+</div>
+
+<style>
+.language-switcher {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.language-switcher .btn {
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+}
+</style>

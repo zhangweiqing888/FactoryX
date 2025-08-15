@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "简单测试";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>简单测试页面</h2>
+            <p>如果您能看到这个页面，说明路由配置正常！</p>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5>系统信息</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>当前时间:</strong> @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")</p>
+                    <p><strong>当前语言:</strong> @System.Threading.Thread.CurrentThread.CurrentUICulture.DisplayName</p>
+                    <p><strong>应用程序名称:</strong> FactoryX MES</p>
+                </div>
+            </div>
+            
+            <div class="mt-3">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-primary">返回首页</a>
+                <a href="@Url.Action("Test", "Home")" class="btn btn-success">测试页面</a>
+                <a href="@Url.Action("TestLocalization", "Home")" class="btn btn-warning">本地化测试</a>
+            </div>
+        </div>
+    </div>
+</div>

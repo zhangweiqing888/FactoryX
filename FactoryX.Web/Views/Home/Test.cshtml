@@ -1,0 +1,29 @@
+@{
+    ViewData["Title"] = "测试页面";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>测试页面</h2>
+            <p>如果您能看到这个页面，说明路由配置正常！</p>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h5>本地化测试（硬编码文本）</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>仪表板:</strong> 仪表板</p>
+                    <p><strong>机器管理:</strong> 机器管理</p>
+                    <p><strong>产品管理:</strong> 产品管理</p>
+                </div>
+            </div>
+            
+            <div class="mt-3">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-primary">返回首页</a>
+                <a href="@Url.Action("SimpleTest", "Home")" class="btn btn-success">简单测试</a>
+                <a href="@Url.Action("TestLocalization", "Home")" class="btn btn-warning">本地化测试</a>
+            </div>
+        </div>
+    </div>
+</div>

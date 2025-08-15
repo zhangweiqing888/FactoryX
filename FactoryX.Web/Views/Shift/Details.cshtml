@@ -1,22 +1,22 @@
 @model FactoryX.Application.DTOs.Responses.ShiftResponses.GetShiftResponse
 @{
-    ViewData["Title"] = "Vardiya Detay";
+    ViewData["Title"] = "班次详情";
 }
 
-<h2 class="fw-bold mb-4">Vardiya Detay</h2>
+<h2 class="fw-bold mb-4">班次详情</h2>
 
 <div class="glass-card p-4 shadow-sm mx-auto" style="max-width: 400px;">
     <dl class="row mb-0">
-        <dt class="col-5">Vardiya Adı</dt>
+        <dt class="col-5">班次名称</dt>
         <dd class="col-7">@Model.Name</dd>
-        <dt class="col-5">Başlangıç Saati</dt>
+        <dt class="col-5">开始时间</dt>
         <dd class="col-7">@Model.StartTime</dd>
-        <dt class="col-5">Bitiş Saati</dt>
+        <dt class="col-5">结束时间</dt>
         <dd class="col-7">@Model.EndTime</dd>
     </dl>
     <div class="mt-4 d-flex justify-content-end">
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">Düzenle</a>
-        <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">编辑</a>
+        <a asp-action="Index" class="btn btn-secondary">返回</a>
     </div>
 </div>
 

@@ -1,30 +1,30 @@
 @model FactoryX.Application.DTOs.WorkOrderDto
 @{
-    ViewData["Title"] = "İş Emri Sil";
+    ViewData["Title"] = "删除工单";
 }
 
-<h2 class="fw-bold mb-4 text-danger">İş Emri Sil</h2>
+<h2 class="fw-bold mb-4 text-danger">删除工单</h2>
 
 <div class="glass-card p-4 shadow-sm mx-auto" style="max-width: 500px;">
-    <p class="mb-3">Aşağıdaki iş emrini silmek istediğinize emin misiniz?</p>
+    <p class="mb-3">您确定要删除以下工单吗？</p>
     <dl class="row mb-0">
-        <dt class="col-5">Ürün</dt>
+        <dt class="col-5">产品</dt>
         <dd class="col-7">@Model.ProductId <!-- ProductName eklenecek --></dd>
-        <dt class="col-5">Makine</dt>
+        <dt class="col-5">机器</dt>
         <dd class="col-7">@Model.MachineId <!-- MachineName eklenecek --></dd>
-        <dt class="col-5">Miktar</dt>
+        <dt class="col-5">数量</dt>
         <dd class="col-7">@Model.Quantity</dd>
-        <dt class="col-5">Başlangıç</dt>
+        <dt class="col-5">开始日期</dt>
         <dd class="col-7">@Model.StartDate.ToShortDateString()</dd>
-        <dt class="col-5">Bitiş</dt>
+        <dt class="col-5">结束日期</dt>
         <dd class="col-7">@Model.EndDate.ToShortDateString()</dd>
-        <dt class="col-5">Durum</dt>
+        <dt class="col-5">状态</dt>
         <dd class="col-7">@Model.Status</dd>
     </dl>
     <form asp-action="Delete" method="post" class="mt-4 d-flex justify-content-end gap-2">
         <input type="hidden" asp-for="Id" />
-        <button type="submit" class="btn btn-danger">Sil</button>
-        <a asp-action="Index" class="btn btn-outline-secondary">İptal</a>
+        <button type="submit" class="btn btn-danger">删除</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">取消</a>
     </form>
 </div>
 

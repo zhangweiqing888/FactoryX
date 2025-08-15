@@ -1,24 +1,24 @@
 @model FactoryX.Application.DTOs.ProductionRecordDto
 @{
-    ViewData["Title"] = "Üretim Kaydı Detay";
+    ViewData["Title"] = "生产记录详情";
 }
 
-<h2 class="fw-bold mb-4">Üretim Kaydı Detay</h2>
+<h2 class="fw-bold mb-4">生产记录详情</h2>
 
 <div class="glass-card p-4 shadow-sm mx-auto" style="max-width: 500px;">
     <dl class="row mb-0">
-        <dt class="col-5">İş Emri</dt>
+        <dt class="col-5">工单</dt>
         <dd class="col-7">@Model.WorkOrderName</dd>
-        <dt class="col-5">Operatör</dt>
+        <dt class="col-5">操作员</dt>
         <dd class="col-7">@Model.OperatorName</dd>
-        <dt class="col-5">Üretilen Miktar</dt>
+        <dt class="col-5">生产数量</dt>
         <dd class="col-7">@Model.QuantityProduced</dd>
-        <dt class="col-5">Tarih/Saat</dt>
+        <dt class="col-5">日期/时间</dt>
         <dd class="col-7">@Model.Timestamp.ToString("g")</dd>
     </dl>
     <div class="mt-4 d-flex justify-content-end">
-        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">Düzenle</a>
-        <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">编辑</a>
+        <a asp-action="Index" class="btn btn-secondary">返回</a>
     </div>
 </div>
 

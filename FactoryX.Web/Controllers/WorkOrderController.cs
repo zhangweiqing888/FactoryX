@@ -45,7 +45,7 @@ public class WorkOrderController : Controller
 			return View(request);
 		}
 		await _serviceManager.WorkOrderService.CreateAsync(request);
-		TempData["Success"] = "İş emri başarıyla eklendi.";
+		TempData["Success"] = "工单创建成功！";
 		return RedirectToAction(nameof(Index));
 	}
 
@@ -68,7 +68,7 @@ public class WorkOrderController : Controller
 			return View(request);
 		}
 		await _serviceManager.WorkOrderService.UpdateAsync(request);
-		TempData["Success"] = "İş emri başarıyla güncellendi.";
+		TempData["Success"] = "工单更新成功！";
 		return RedirectToAction(nameof(Index));
 	}
 
@@ -84,7 +84,7 @@ public class WorkOrderController : Controller
 	public async Task<IActionResult> DeleteConfirmed(DeleteWorkOrderRequest request)
 	{
 		await _serviceManager.WorkOrderService.DeleteAsync(request);
-		TempData["Success"] = "İş emri başarıyla silindi.";
+		TempData["Success"] = "工单删除成功！";
 		return RedirectToAction(nameof(Index));
 	}
 

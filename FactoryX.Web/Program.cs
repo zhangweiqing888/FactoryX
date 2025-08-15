@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
 using FactoryX.Infrastructure;
 using FactoryX.Web.Services.Concretes;
 using FactoryX.Web.Services.Abstracts;
@@ -12,10 +14,28 @@ var builder = WebApplication.CreateBuilder(args);
 // MVC Services
 builder.Services.AddControllersWithViews();
 
+// 添加本地化服务
+builder.Services.AddLocalization();
+
+// 配置本地化选项
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("en-US"), // 英文
+        new CultureInfo("zh-CN"), // 中文
+    };
+
+    options.DefaultRequestCulture = new RequestCulture("zh-CN"); // 默认中文
+    options.SupportedCultures = supportedCultures;
+    options.SupportedUICultures = supportedCultures;
+});
+
 // Database Configuration
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddInfrastructure(connectionString ?? "");
 builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 // Application Services
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMachineService, MachineService>();
@@ -58,13 +78,15 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-//Security & Static Files
+// Security & Static Files
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+// 添加本地化中间件
+app.UseRequestLocalization();
 
 // Routing
 app.UseRouting();
@@ -73,7 +95,9 @@ app.UseRouting();
 app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiddleware<FirstVisitMiddleware>();
+
+// 暂时禁用FirstVisitMiddleware来测试本地化功能
+// app.UseMiddleware<FirstVisitMiddleware>();
 
 app.MapStaticAssets();
 
